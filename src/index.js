@@ -2,7 +2,7 @@
 const { Client, Events, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 
-const token = process.env.OAUTH_TOKEN
+const token = process.env.OAUTH2_TOKEN
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
