@@ -1,11 +1,10 @@
-// Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
+const { Client, Events, GatewayIntentBits, Collection, REST, Routes } = require("discord.js");
 require("dotenv").config();
-const fs = require('node:fs');
-const path = require('node:path');
+const fs = require("node:fs");
+const path = require("node:path");
 
 
-const token = process.env.OAUTH2_TOKEN
+const token = process.env.OAUTH2_TOKEN;
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -13,7 +12,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
 
 function getCommands() {
-	const commandsFoldersPath = path.join(__dirname, 'commands');
+	const commandsFoldersPath = path.join(__dirname, "commands");
 	const commandsFolders = fs.readdirSync(commandsFoldersPath);
 	const commands = []
 	for (const folder of commandsFolders) {
@@ -23,7 +22,7 @@ function getCommands() {
 			const filePath = path.join(commandsPath, file);
 			const command = require(filePath);
 			// Set a new item in the Collection with the key as the command name and the value as the exported module
-			if ('data' in command && 'execute' in command) {
+			if ("data" in command && "execute" in command) {
 				commands.push(command);
 			} else {
 				console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
@@ -33,6 +32,12 @@ function getCommands() {
 	return commands;
 }
 module.exports = getCommands;
+
+if (process.argv[2] === "deploy") {
+	const rest =  new REST().setToken(token);
+	const { deployCommands } = require("./deploy.js")(rest, Routes, getCommands());
+	return deployCommands;
+}
 
 client.commands.set(getCommands().forEach(command => { command.data.name, command }))
 
