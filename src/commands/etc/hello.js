@@ -7,8 +7,7 @@ module.exports = {
 		.setDescription("Saluda a usuari@/server."),
 	async execute(interaction) {
 		await interaction.reply(`
-			Hola ${interaction.user.username}\
-			en ${interaction.guild.name}!
+			Hola ${interaction.user.username}, en ${interaction.guild.name}!
 		`);
 	}
 };
