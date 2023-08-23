@@ -32,7 +32,7 @@ if (commands.length >= 1) {
 	}
 }
 
-// Events
+// Events collection and handling with client instance
 const events = eventsCollecter();
 
 if (events) {
