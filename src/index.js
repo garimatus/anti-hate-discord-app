@@ -2,6 +2,7 @@ const { Client, Events, GatewayIntentBits, Collection, REST, Routes } = require(
 require("dotenv").config();
 const commandsHandler = require("./utils/commands-handler.js");
 const commandsCollecter = require("./utils/commands-collecter.js");
+const eventsCollecter = require("./utils/events-collecter.js");
 
 const token = process.env.OAUTH2_TOKEN;
 
@@ -21,12 +22,6 @@ if (process.argv[2] === "deploy") {
 	require("./utils/deploy.js")(rest, Routes, commands);
 }
 
-// When the client is ready, run this code (only once)
-// We use 'c' for the event parameter to keep it separate from the already defined 'client'
-client.once(Events.ClientReady, c => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
-});
-
 if (commands.length >= 1) {
 	commands.forEach(command =>
 		client.commands.set(command.data.name, command)
@@ -35,6 +30,23 @@ if (commands.length >= 1) {
 	if (client.commands.get("hola")) {
 		client.on(Events.InteractionCreate, commandsHandler);
 	}
+}
+
+// Events
+const events = eventsCollecter();
+
+if (events) {
+	events.forEach(event => {
+		const listener = (...args) => event.execute(...args);
+
+		if (event.once) {
+			client.once(event.name, listener);
+		}
+		
+		if (!event.once) {
+			client.on(event.name, listener);
+		}
+	});
 }
 
 // Log in to Discord with your client's token
