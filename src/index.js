@@ -1,13 +1,25 @@
 const { Client, Events, GatewayIntentBits, Collection, REST, Routes } = require("discord.js");
+const path = require("node:path");
 require("dotenv").config();
 const commandsHandler = require("./utils/commands-handler.js");
 const commandsCollecter = require("./utils/commands-collecter.js");
 const eventsCollecter = require("./utils/events-collecter.js");
 
+const TFLanguageModel = require("./language_model/TFLanguageModel.class.js");
+const TFN = require("@tensorflow/tfjs-node");
+
 const token = process.env.OAUTH2_TOKEN;
 
+const TFNfileHandler = TFN.io.fileSystem(path.join(__dirname, process.env.MODEL_PATH));
+const antiHateLangModel = new TFLanguageModel(TFNfileHandler);
+
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents : [
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildMessages,
+	GatewayIntentBits.DirectMessages,
+	GatewayIntentBits.MessageContent
+]});
 
 client.commands = new Collection();
 
@@ -44,7 +56,13 @@ if (events) {
 		}
 		
 		if (!event.once) {
-			client.on(event.name, listener);
+			if (event.name === Events.MessageCreate) {
+				client.on(event.name, async(...args) => {
+					await event.execute(...args, antiHateLangModel);
+				});
+			} else {
+				client.on(event.name, listener);
+			}
 		}
 	});
 }
