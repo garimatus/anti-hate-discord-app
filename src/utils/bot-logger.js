@@ -15,7 +15,9 @@ module.exports = function botLogger(color, content) {
 
         const logLocale = new Date(Date.now()).toLocaleString();
         // const message = `[${ logLocale }] ` + content;
-
-        console.log(`[${ logLocale }] ${ logColor }`, logContent);
+        
+        console.log(`[${ logLocale }] ${ logColor ? `${ logColor }` : ""}`.trim(),
+            logContent
+        );
     }
 }
