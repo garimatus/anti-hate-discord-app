@@ -1,5 +1,4 @@
 const { Client, GatewayIntentBits } = require("discord.js");
-require("dotenv").config();
 const { setClientEvents } = require("./events/index");
 const { setClientCommands } = require("./commands/index");
 
