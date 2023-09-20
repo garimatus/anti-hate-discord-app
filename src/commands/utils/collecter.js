@@ -1,26 +1,32 @@
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import botLogger from "../../utils/bot-logger.js";
+const { pathname : path } = new URL("../", import.meta.url);
 
-module.exports = function() {
+export default async function() {
 	const commands = [];
-	const commandsFoldersPath = path.join(__dirname, "../");
+	const commandsFoldersPath = path;
 
 	try {
 		const commandsFolders = fs.readdirSync(commandsFoldersPath);
 		
 		for (const folder of commandsFolders) {
-			if (fs.lstatSync(path.join(commandsFoldersPath, folder)).isDirectory() && folder !== "utils") {
-				const commandsPath = path.join(commandsFoldersPath, folder);
+			const commandsPath = commandsFoldersPath + folder;
+
+			if (fs.lstatSync(commandsPath).isDirectory() && folder !== "utils") {
 				const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 				
 				for (const file of commandFiles) {
-					const filePath = path.join(commandsPath, file);
-					const command = require(filePath);
+					const filePath = commandsPath + "/" + file;
+					console.log(filePath);
 					// Set a new item in the Collection with the key as the command name and the value as the exported module
+					const { command } = await import(filePath);
+					
 					if ("data" in command && "execute" in command) {
 						commands.push(command);
 					} else {
-						console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+						botLogger("yellow",
+							`[WARNING] The command at ${ filePath } is missing a required "data" or "execute" property.`
+						);
 					}
 				}
 			}
@@ -28,6 +34,8 @@ module.exports = function() {
 		
 		return commands;
 	} catch (error) {
-		console.log(`[ERROR] An error has ocurred while trying to collect all command files: ${error}`);
+		botLogger("red",
+			`[ERROR] An error has ocurred while trying to collect all command files: ${error}`
+		);
 	}
 }

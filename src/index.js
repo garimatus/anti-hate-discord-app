@@ -1,6 +1,6 @@
-const { Client, GatewayIntentBits } = require("discord.js");
-const { setClientEvents } = require("./events/index");
-const { setClientCommands } = require("./commands/index");
+import { Client, GatewayIntentBits } from "discord.js";
+import { setClientEvents } from "./events/index.js";
+import { setClientCommands } from "./commands/index.js";
 
 const token = process.env.OAUTH2_TOKEN;
 

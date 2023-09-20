@@ -1,6 +1,6 @@
-const TF = require("@tensorflow/tfjs");
+import TF from "@tensorflow/tfjs";
 
-module.exports = class TFLanguageModel {
+export default class TFLanguageModel {
 	constructor(handler) {
 		//this.model = TF.loadLayersModel(handler);
 	}

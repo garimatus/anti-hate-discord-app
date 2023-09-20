@@ -1,4 +1,4 @@
-module.exports = function botLogger(color, content) {
+export default function(color, content) {
     if (content) {
         const logContent = content.trim();
         var logColor = "";

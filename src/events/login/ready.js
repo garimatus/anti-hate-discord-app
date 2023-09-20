@@ -1,7 +1,7 @@
-const { Events } = require("discord.js");
-const botLogger = require("../../utils/bot-logger.js");
+import { Events } from "discord.js";
+import botLogger from "../../utils/bot-logger.js";
 
-module.exports = {
+export const event = {
 	name : Events.ClientReady,
 	once : true,
 	execute(client) {

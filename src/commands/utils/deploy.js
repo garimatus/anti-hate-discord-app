@@ -1,6 +1,6 @@
-const botLogger = require("../../utils/bot-logger");
+import botLogger from "../../utils/bot-logger.js";
 
-module.exports = async function(rest, Routes, commands) {
+export default async function(rest, Routes, commands) {
 	try {
         const commandsJsoned = [];
         commands.forEach(command => {

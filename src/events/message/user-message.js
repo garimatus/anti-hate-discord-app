@@ -1,6 +1,6 @@
-const { Events } = require("discord.js");
+import { Events } from "discord.js";
 
-module.exports = {
+export const event = {
 	name : Events.MessageCreate,
 	once : false,
 	async execute(message, antiHateLangModel) {
