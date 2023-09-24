@@ -1,8 +1,7 @@
 import TF from "@tensorflow/tfjs";
 
 export default class TFLanguageModel {
-	constructor(handler) {
-		//this.model = TF.loadLayersModel(handler);
+	constructor() {
 	}
 
 	hateSpeechPredicter(message) {

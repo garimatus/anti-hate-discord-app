@@ -17,7 +17,6 @@ export default async function() {
 				
 				for (const file of commandFiles) {
 					const filePath = commandsPath + "/" + file;
-					console.log(filePath);
 					// Set a new item in the Collection with the key as the command name and the value as the exported module
 					const { command } = await import(filePath);
 					
