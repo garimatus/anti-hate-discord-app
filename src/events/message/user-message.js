@@ -79,7 +79,7 @@ export const event = {
 			if (guildUserWarnings > guildAllowedWarnings) {
 				// await message.guild.members.ban(message.author.id)
 				
-				message.reply(`Guild user "${ message.author.globalName }" has been banned from guild due to exceed the number of ${ message.client.user.username }'s warnings. Fly high son, you won't be missed...😉`);
+				message.reply(`Guild user "${ message.author.globalName }" has been banned due to exceed the limit number of Guild's anti hate speech warnings. Fly high son, you won't be missed...😉`);
 				
 				await antiHateBotMapper.update({
 					guild_id : message.guildId,
