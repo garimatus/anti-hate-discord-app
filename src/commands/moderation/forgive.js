@@ -1,10 +1,11 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 import { mapper } from "../../database/index.js";
+const { pathname : path } = new URL(import.meta.url);
 
 export const command = {
 	data : new SlashCommandBuilder()
-        .setName("forgive")
-        .setDescription("Resets warnings counter and unbans user if necessary by their id at current Guild.")
+        .setName((await import("path")).parse(path.split("/").pop()).name)
+        .setDescription("Resets warning counter and unbans user (if necessary) by their id at current guild.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(option => {
 			return option.setName("id")
@@ -13,7 +14,7 @@ export const command = {
 		}),
 	async execute(interaction) {
 		const userId = interaction.options._hoistedOptions[0].value.trim()
-
+		
         const antiHateBotMapper = mapper.forModel("Anti_Hate_Discord_Bot");
         
         const user = await antiHateBotMapper.get({
