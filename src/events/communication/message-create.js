@@ -5,28 +5,16 @@ export const event = {
 	once : false,
 	async execute(message, antiHateLangModel, antiHateBotMapper) {
 		if (message.author.bot || message.content.length < 5) return;
-
+		
 		const messageContent = message.content.replace(/[^a-z0-9¡!¿? ]/gi, '');
 		
 		if (antiHateLangModel.hateSpeechPredicter(messageContent)) {
 			var guildUserWarnings = 1;
-			var guildAllowedWarnings = 3;
 			var userTotalBans = 0;
-			
-			const guild = await antiHateBotMapper.get({
+
+			const { bans, warnings_allowed } = await antiHateBotMapper.get({
 				guild_id : message.guildId
 			});
-			
-			if (!guild) {
-				await antiHateBotMapper.insert({
-					guild_id : message.guildId,
-					command_prefix : "/",
-					warnings_allowed : guildAllowedWarnings,
-					bans : 0
-				});
-			} else {
-				guildAllowedWarnings = guild.warnings_allowed;
-			}
 
 			const user = await antiHateBotMapper.get({
 				user_id : message.author.id
@@ -75,17 +63,17 @@ export const event = {
 					user_warnings : guildUserWarnings
 				});
 			}
-
-			if (guildUserWarnings > guildAllowedWarnings) {
+			
+			if (guildUserWarnings > warnings_allowed) {
 				// await message.guild.members.ban(message.author.id)
-				
+
 				message.reply(`Guild user "${ message.author.globalName }" has been banned due to exceed the limit number of Guild's anti hate speech warnings. Fly high son, you won't be missed...😉`);
-				
+
 				await antiHateBotMapper.update({
 					guild_id : message.guildId,
 					user_id : message.author.id,
 					user_ban : true,
-					bans : parseInt(guild.bans) + 1
+					bans : parseInt(bans) + 1
 				});
 
 				await antiHateBotMapper.update({
@@ -93,7 +81,7 @@ export const event = {
 					total_bans : userTotalBans + 1
 				});
 			} else {
-				message.reply(`Guild user "${ message.author.globalName }" has just gotten their (${ guildUserWarnings }/${ guildAllowedWarnings }) hate speech warning...🚩`);
+				message.reply(`Guild user "${ message.author.globalName }" has just gotten their (${ guildUserWarnings }/${ warnings_allowed }) hate speech warning...🚩`);
 			}
 
 			await antiHateBotMapper.insert({
