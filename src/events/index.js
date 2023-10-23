@@ -1,6 +1,6 @@
 import collecter from "./utils/collecter.js";
 import listener from "./utils/listener.js";
-import botLogger from "../utils/bot-logger.js";
+import antiHateBotLogger from "../utils/logger.js";
 
 export const setClientEvents = async function(client) {
     // Events collection and handling with client instance
@@ -20,7 +20,7 @@ export const setClientEvents = async function(client) {
         }
     });
     
-    botLogger("green",
+    antiHateBotLogger("green",
         `The following ${ client.eventNames().length } event(s) was/were added to client:`
     );
     

@@ -1,4 +1,4 @@
-import antiHateBotLogger from "../../utils/bot-logger.js";
+import antiHateBotLogger from "../../utils/logger.js";
 import { mapper } from "../../database/index.js"
 
 export default async function(rest, Routes, commands) {
@@ -19,7 +19,7 @@ export default async function(rest, Routes, commands) {
 		);
 		
 		const guildsCount = (await antiHateMapper.getGuildsCount()).first().guilds_count;
-		
+
 		if (guildsCount) {
 			// The put method is used to fully refresh all commands in the guild with the current set
 			const data = await rest.put(

@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import botLogger from "../../utils/bot-logger.js";
+import botLogger from "../../utils/logger.js";
 const { pathname : path } = new URL("../", import.meta.url);
 
 export default async function() {

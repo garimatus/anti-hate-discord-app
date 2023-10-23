@@ -2,7 +2,7 @@ import { Collection, REST, Routes, Events } from "discord.js";
 import handler from "./utils/handler.js";
 import collecter from "./utils/collecter.js";
 import deploy from "./utils/deploy.js";
-import botLogger from "../utils/bot-logger.js";
+import antiHateBotLogger from "../utils/logger.js";
 
 export const setClientCommands = async function(client) {
     client.commands = new Collection();
@@ -23,7 +23,7 @@ export const setClientCommands = async function(client) {
     
     client.on(Events.InteractionCreate, handler);
 
-    botLogger("green",
+    antiHateBotLogger("green",
         `The following ${ client.commands.size } command(s) was/were added${
             process.argv[2] === "deploy" ? " and deployed" : ""
         } to client:`.trim()

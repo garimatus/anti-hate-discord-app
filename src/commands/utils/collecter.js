@@ -1,11 +1,11 @@
 import fs from "node:fs";
-import botLogger from "../../utils/bot-logger.js";
+import antiHateBotLogger from "../../utils/logger.js";
 const { pathname : path } = new URL("../", import.meta.url);
 
 export default async function() {
 	const commands = [];
 	const commandsFoldersPath = path;
-
+	
 	try {
 		const commandsFolders = fs.readdirSync(commandsFoldersPath);
 		
@@ -23,7 +23,7 @@ export default async function() {
 					if ("data" in command && "execute" in command) {
 						commands.push(command);
 					} else {
-						botLogger("yellow",
+						antiHateBotLogger("yellow",
 							`[WARNING] The command at ${ filePath } is missing a required "data" or "execute" property.`
 						);
 					}
@@ -33,7 +33,7 @@ export default async function() {
 		
 		return commands;
 	} catch (error) {
-		botLogger("red",
+		antiHateBotLogger("red",
 			`[ERROR] An error has ocurred while trying to collect all command files: ${error}`
 		);
 	}
