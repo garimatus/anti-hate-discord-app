@@ -67,7 +67,7 @@ export const event = {
 			if (guildUserWarnings > warnings_allowed) {
 				// await message.guild.members.ban(message.author.id)
 
-				message.reply(`Guild user "${ message.author.globalName }" has been banned due to exceed the limit number of Guild's anti hate speech warnings. Fly high son, you won't be missed...😉`);
+				message.reply(`Guild user "${ message.author.globalName }" has been banned due to exceed the limit number of guild's anti hate speech warnings`);
 
 				await antiHateBotMapper.update({
 					guild_id : message.guildId,
@@ -81,7 +81,7 @@ export const event = {
 					total_bans : userTotalBans + 1
 				});
 			} else {
-				message.reply(`Guild user "${ message.author.globalName }" has just gotten their (${ guildUserWarnings }/${ warnings_allowed }) hate speech warning...🚩`);
+				message.reply(`🚩:	Guild user "${ message.author.globalName }" has just gotten their (${ guildUserWarnings }/${ warnings_allowed }) hate speech warning`);
 			}
 
 			await antiHateBotMapper.insert({
@@ -93,4 +93,4 @@ export const event = {
 			});
 		}
 	}
-};
+}
