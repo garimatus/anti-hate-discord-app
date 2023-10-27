@@ -3,25 +3,25 @@ import { Events } from "discord.js";
 export const event = {
 	name : Events.MessageCreate,
 	once : false,
-	async execute(message, antiHateLangModel, antiHateBotMapper) {
+	async execute(message, model, mapper) {
 		if (message.author.bot || message.content.length < 5) return;
 		
 		const messageContent = message.content.replace(/[^a-z0-9¡!¿? ]/gi, '');
 		
-		if (antiHateLangModel.hateSpeechPredicter(messageContent)) {
+		if (model.hateSpeechDetector(messageContent)) {
 			var guildUserWarnings = 1;
 			var userTotalBans = 0;
-
-			const { bans, warnings_allowed } = await antiHateBotMapper.get({
+			
+			const { bans, warnings_allowed } = await mapper.get({
 				guild_id : message.guildId
 			});
 
-			const user = await antiHateBotMapper.get({
+			const user = await mapper.get({
 				user_id : message.author.id
 			});
 
 			if (!user) {
-				antiHateBotMapper.insert({
+				mapper.insert({
 					user_id : message.author.id,
 					username : message.author.username,
 					global_username : message.author.globalName,
@@ -30,7 +30,7 @@ export const event = {
 					total_bans : 0
 				});
 			} else {
-				await antiHateBotMapper.update({
+				await mapper.update({
 					user_id : message.author.id,
 					global_username : message.author.globalName,
 					avatar : message.author.avatar,
@@ -40,13 +40,13 @@ export const event = {
 				userTotalBans = parseInt(user.total_bans);
 			}
 
-			const guildUser = await antiHateBotMapper.get({
+			const guildUser = await mapper.get({
 				user_id : message.author.id,
 				guild_id : message.guildId
 			});
 			
 			if (!guildUser) {
-				await antiHateBotMapper.insert({
+				await mapper.insert({
 					guild_id : message.guildId,
 					user_id : message.author.id,
 					global_username : message.author.globalName,
@@ -57,7 +57,7 @@ export const event = {
 			} else {
 				guildUserWarnings = parseInt(guildUser.user_warnings) + 1;
 
-				await antiHateBotMapper.update({
+				await mapper.update({
 					guild_id : message.guildId,
 					user_id : message.author.id,
 					user_warnings : guildUserWarnings
@@ -69,14 +69,14 @@ export const event = {
 				
 				message.reply(`Guild user "${ message.author.globalName }" has been banned due to exceed the limit number of guild's anti hate speech warnings`);
 
-				await antiHateBotMapper.update({
+				await mapper.update({
 					guild_id : message.guildId,
 					user_id : message.author.id,
 					user_ban : true,
 					bans : parseInt(bans) + 1
 				});
 
-				await antiHateBotMapper.update({
+				await mapper.update({
 					user_id : message.author.id,
 					total_bans : userTotalBans + 1
 				});
@@ -84,7 +84,7 @@ export const event = {
 				message.reply(`🚩:	Guild user "${ message.author.globalName }" has just gotten their (${ guildUserWarnings }/${ warnings_allowed }) hate speech warning`);
 			}
 
-			await antiHateBotMapper.insert({
+			await mapper.insert({
 				message_id : message.id,
 				content : message.content,
 				date : Date(message.createdTimeStamp),
