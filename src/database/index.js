@@ -1,38 +1,28 @@
 import { Client, mapping } from "cassandra-driver";
-import fs from "node:fs";
-
-const { pathname : path } = new URL("./", import.meta.url);
-const createKeyspaceCql = fs.readFileSync(path + "./queries/create-keyspace.cql").toString();
-const createMessageCql = fs.readFileSync(path + "./queries/create-messages.cql").toString();
-const createGuildCql = fs.readFileSync(path + "./queries/create-guilds.cql").toString();
-const createUserCql = fs.readFileSync(path + "./queries/create-users.cql").toString();
-const createGuildUserCql = fs.readFileSync(path + "./queries/create-guilds-users.cql").toString();
+import collecter from "./utils/collecter.js";
 
 const client = new Client({
-	contactPoints : ["0.0.0.0:9042"],
-	localDataCenter : "datacenter1",
-	keyspace : "anti_hate_discord_bot"
+	contactPoints : [`${ process.env.CASSIE_HOST }:${ process.env.CASSIE_PORT }`],
+	localDataCenter : "datacenter1"
 });
 
-client.connect();
+client.connect().then(async() => {
+	const queries = await collecter();
+	await client.execute(queries.createKeyspace);
+	client.execute(queries.createMessages);
+	client.execute(queries.createGuilds);
+	client.execute(queries.createUsers);
+	client.execute(queries.createGuildsUsers);
+});
 
-client.execute(createKeyspaceCql);
-client.execute(createMessageCql);
-client.execute(createGuildCql);
-client.execute(createUserCql);
-client.execute(createGuildUserCql);
-
-const mapper = new mapping.Mapper(client, {
-		models : {
-			"Anti_Hate_Discord_Bot" : { tables : [
-					"messages",
-					"guilds",
-					"users",
-					"guilds_users"
-				]
-			}
-		}
+export const mapper = new mapping.Mapper(client, { models : {
+	"anti-hate-discord-bot" : {
+		keyspace : "anti_hate_discord_bot",
+		tables : [
+			"messages",
+			"guilds",
+			"users",
+			"guilds_users"
+		]
 	}
-);
-
-export { mapper };
+}});
