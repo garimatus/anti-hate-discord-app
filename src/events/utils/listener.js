@@ -1,15 +1,10 @@
 import { Events } from "discord.js";
-import TFLanguageModel from "../../language_model/TFLanguageModel.class.js";
-import { mapper } from "../../database/index.js";
+import tensorFlowLangModel from "../../language_model/TFLanguageModel.class.js";
 
-export default function(event) {
-    var listener = (...args) => event.execute(...args);
-
+export default function(event, mapper) {
     if (event.name === Events.MessageCreate) {
-        const antiHateLangModel = new TFLanguageModel();
-        const antiHateBotMapper = mapper.forModel("Anti_Hate_Discord_Bot");
-        listener = (...args) => event.execute(...args, antiHateLangModel, antiHateBotMapper);
+        return (...args) => event.execute(...args, new tensorFlowLangModel(), mapper);
+    } else {
+        return (...args) => event.execute(...args, mapper);
     }
-    
-    return listener;
 }

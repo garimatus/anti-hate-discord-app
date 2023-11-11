@@ -1,19 +1,16 @@
 import { Events } from "discord.js";
-import { mapper } from "../../database/index.js";
 
 export const event = {
 	name : Events.GuildCreate,
 	once : true,
-	async execute(guild) {
+	async execute(guild, mapper) {
 		if (guild) {
-			const antiHateBotMapper = mapper.forModel("Anti_Hate_Discord_Bot");
-			
-			const guildResult = await antiHateBotMapper.get({
+			const guildResult = await mapper.get({
 				guild_id : guild.id
 			});
 			
 			if (!guildResult) {
-				await antiHateBotMapper.insert({
+				await mapper.insert({
 					guild_id : guild.id,
 					command_prefix : "/",
 					warnings_allowed : 3,
@@ -27,10 +24,10 @@ export const event = {
 						return channel;
 					}
 			}).first();
-
+			
 			if (generalTextChannel) {
 				generalTextChannel.send("*sent welcomingMessage*");
 			}
 		}
 	}
-};
+}

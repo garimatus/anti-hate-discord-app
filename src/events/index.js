@@ -1,5 +1,6 @@
 import collecter from "./utils/collecter.js";
 import listener from "./utils/listener.js";
+import { mapper } from "../database/index.js";
 import antiHateBotLogger from "../utils/logger.js";
 
 export const setClientEvents = async function(client) {
@@ -9,14 +10,16 @@ export const setClientEvents = async function(client) {
     if (!events.length) {
         throw new Error("There was not any valid event file found.");
     }
+
+    const antiHateDiscordBotMapper = mapper.forModel("anti-hate-discord-bot");
     
     events.forEach(event => {
         if (event.once) {
-            client.once(event.name, listener(event));
+            client.once(event.name, listener(event, antiHateDiscordBotMapper));
         }
         
         if (!event.once) {
-            client.on(event.name, listener(event));
+            client.on(event.name, listener(event, antiHateDiscordBotMapper));
         }
     });
     
