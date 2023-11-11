@@ -12,13 +12,18 @@ export default async function(rest, Routes, commands) {
 			`Started refreshing ${ commandsJsoned.length } application (/) commands.`
 		);
 		
-		const antiHateMapper = mapper.forModel("Anti_Hate_Discord_Bot");
-
-        antiHateMapper.getGuildsCount = antiHateMapper.mapWithQuery("SELECT count(guild_id) AS Guilds_Count FROM Guilds",
+		const antiHateDiscordBotMapper = mapper.forModel("anti-hate-discord-bot");
+		
+        antiHateDiscordBotMapper.getGuildsCount = antiHateDiscordBotMapper.mapWithQuery(
+			`SELECT
+				COUNT(Guild_Id) AS Guilds_Count
+			FROM
+				Anti_Hate_Discord_Bot.Guilds
+			`,
 			guild_id => guild_id
 		);
 		
-		const guildsCount = (await antiHateMapper.getGuildsCount()).first().guilds_count;
+		const guildsCount = (await antiHateDiscordBotMapper.getGuildsCount()).first().guilds_count;
 
 		if (guildsCount) {
 			// The put method is used to fully refresh all commands in the guild with the current set

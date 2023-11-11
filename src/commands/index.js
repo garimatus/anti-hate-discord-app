@@ -1,7 +1,7 @@
 import { Collection, REST, Routes, Events } from "discord.js";
 import handler from "./utils/handler.js";
 import collecter from "./utils/collecter.js";
-import deploy from "./utils/deploy.js";
+import deployer from "./utils/deployer.js";
 import antiHateBotLogger from "../utils/logger.js";
 
 export const setClientCommands = async function(client) {
@@ -14,7 +14,7 @@ export const setClientCommands = async function(client) {
 
     if (process.argv[2] === "deploy") {
         const rest =  new REST().setToken(process.env.OAUTH2_TOKEN);
-        deploy(rest, Routes, commands);
+        deployer(rest, Routes, commands);
     }
     
     commands.forEach(command =>
