@@ -27,9 +27,9 @@ export const command = {
             return;
         }
         
-        const antiHateBotMapper = mapper.forModel("Anti_Hate_Discord_Bot");
+        const antiHateDiscordBotMapper = mapper.forModel("anti-hate-discord-bot");
 		
-        const { warnings_allowed } = await antiHateBotMapper.get({
+        const { warnings_allowed } = await antiHateDiscordBotMapper.get({
             guild_id : interaction.member.guild.id
         });
         
@@ -39,7 +39,7 @@ export const command = {
             return;
         }
 
-		await antiHateBotMapper.update({
+		await antiHateDiscordBotMapper.update({
 			guild_id : interaction.member.guild.id,
             warnings_allowed : newWarningsLimit
 		});
@@ -48,4 +48,4 @@ export const command = {
 			Guild's limit value of warnings per user setted from ${ warnings_allowed } to ${ newWarningsLimit }
 		`);
 	}
-};
+}

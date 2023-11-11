@@ -15,9 +15,9 @@ export const command = {
 	async execute(interaction) {
 		const userId = interaction.options._hoistedOptions[0].value.trim()
 		
-        const antiHateBotMapper = mapper.forModel("Anti_Hate_Discord_Bot");
+        const antiHateDiscordBotMapper = mapper.forModel("anti-hate-discord-bot");
         
-        const user = await antiHateBotMapper.get({
+        const user = await antiHateDiscordBotMapper.get({
             user_id : userId,
         });
 
@@ -29,7 +29,7 @@ export const command = {
 			return;
 		}
 
-		const { user_warnings, user_ban } = await antiHateBotMapper.get({
+		const { user_warnings, user_ban } = await antiHateDiscordBotMapper.get({
 			guild_id : interaction.member.guild.id,
 			user_id : user.user_id
 		});
@@ -50,7 +50,7 @@ export const command = {
 			}
 		}
 		
-		await antiHateBotMapper.update({
+		await antiHateDiscordBotMapper.update({
 			guild_id : interaction.member.guild.id,
 			user_id : user.user_id,
 			user_warnings : 0,
@@ -61,4 +61,4 @@ export const command = {
 			User "${ user.username }" has been forgiven in this Guild
 		`);
 	}
-};
+}
