@@ -3,7 +3,8 @@ import { setClientEvents } from './events/index.js'
 import { setClientCommands } from './commands/index.js'
 import { initializeOllamaSession } from './ollama/index.js'
 
-const OAUTH2_TOKEN: string | undefined = process.env.OAUTH2_TOKEN
+const DISCORD_OAUTH2_TOKEN: string | undefined =
+  process.env.DISCORD_OAUTH2_TOKEN
 
 await initializeOllamaSession()
 
@@ -23,4 +24,4 @@ setClientEvents(client)
 setClientCommands(client)
 
 // Log in to Discord with your client's token
-client.login(OAUTH2_TOKEN)
+client.login(DISCORD_OAUTH2_TOKEN)

@@ -32,7 +32,7 @@ export default async function (
 
     if (guildsCount > 0) {
       const data: any = await rest.put(
-        Routes.applicationCommands(process.env.CLIENT_ID),
+        Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
         { body: commandsJsoned }
       )
 
