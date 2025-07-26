@@ -1,6 +1,6 @@
 FROM node:21.1.0 AS base
 
-ENV APP_HOME="/home/anti-hate-discord-bot"
+ENV APP_HOME="/home/anti-hate-discord-app"
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV ENV_FILE=".env.dev"
