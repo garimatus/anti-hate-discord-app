@@ -1,0 +1,21 @@
+services:
+  application:
+    image: anti-hate-discord-app:latest
+    container_name: anti-hate-discord-bot
+    build: .
+    command: sh -c "pnpm install && pnpm run build && pnpm run deploy"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    links: [cassandra]
+    ports: ['3000:3000', '11434:11434']
+  cassandra:
+    container_name: anti-hate-cassie-db
+    image: cassandra:latest
+    ports: ['9042:9042']
+    healthcheck:
+      test: sh -c "nodetool statusgossip | grep -q running"
+      start_period: 2m
+      interval: 20s
+      timeout: 10s
+      retries: 2

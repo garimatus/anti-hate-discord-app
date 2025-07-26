@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS Anti_Hate_Discord_Bot.Users(
+CREATE TABLE IF NOT EXISTS Anti_Hate_Discord_Bot.User(
     User_Id BIGINT PRIMARY KEY
     ,Username VARCHAR
     ,Global_Username VARCHAR

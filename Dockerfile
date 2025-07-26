@@ -1,9 +1,18 @@
-FROM node:latest
+FROM node:21.1.0 AS base
 
-RUN mkdir -p /home/anti-hate-discord-bot
+ENV APP_HOME="/home/anti-hate-discord-bot"
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV ENV_FILE=".env.dev"
+RUN corepack enable
 
-WORKDIR /home/anti-hate-discord-bot
+RUN mkdir -p ${APP_HOME}
+WORKDIR ${APP_HOME}
+COPY . ${APP_HOME}
 
-COPY . /home/anti-hate-discord-bot
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
 
-CMD ["npm install"]
+FROM base
+COPY --from=build ${APP_HOME}/dist ${APP_HOME}/dist

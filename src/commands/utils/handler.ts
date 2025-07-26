@@ -1,6 +1,8 @@
-export default async function (interaction) {
-  if (!interaction.isChatInputCommand()) return
+import { Interaction } from 'discord.js'
 
+export default async function (interaction: Interaction): Promise<void> {
+  if (!interaction.isChatInputCommand()) return
+  // @ts-expect-error
   const command = interaction.client.commands.get(interaction.commandName)
 
   if (!command) {
@@ -10,7 +12,7 @@ export default async function (interaction) {
 
   try {
     await command.execute(interaction)
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({

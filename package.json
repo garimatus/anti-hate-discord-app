@@ -1,25 +1,30 @@
 {
-  "name": "anti-hate-discord-bot",
+  "name": "anti-hate-discord-app",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --env-file .env ./src/index.js",
-    "start": "node --env-file .env ./src/index.js",
-    "deploy": "node --env-file .env ./src/index.js deploy"
+    "build": "tsc && cp -r src/database/queries dist/database && cp -r src/ollama/prompts dist/ollama",
+    "dev": "nodemon --env-file $ENV_FILE ./dist/index.js",
+    "start": "node --env-file $ENV_FILE ./dist/index.js",
+    "deploy": "node --env-file $ENV_FILE ./dist/index.js deploy"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tensorflow/tfjs": "^4.11.0",
     "cassandra-driver": "^4.7.2",
-    "discord.js": "^14.11.0"
+    "discord-api-types": "^0.38.15",
+    "discord.js": "^14.11.0",
+    "ollama": "^0.5.16"
   },
   "devDependencies": {
+    "@types/node": "^22.15.21",
     "nodemon": "^3.0.1",
-    "prettier": "3.4.1"
+    "prettier": "3.4.1",
+    "typescript": "^5.8.3"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184"
 }

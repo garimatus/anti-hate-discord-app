@@ -1,7 +1,9 @@
-export default function (color, content) {
-  if (content) {
-    const logContent = content.trim()
-    var logColor = ''
+import { Color } from '../types/color.type.js'
+
+export default function (message: string, color?: Color): void {
+  if (message && message.length > 0) {
+    const logMessage: string = message.trim()
+    let logColor: string | undefined = undefined
 
     if (color === 'black') logColor = '\x1b[30m%s\x1b[0m'
     if (color === 'red') logColor = '\x1b[31m%s\x1b[0m'
@@ -13,12 +15,11 @@ export default function (color, content) {
     if (color === 'white') logColor = '\x1b[37m%s\x1b[0m'
     if (color === 'gray') logColor = '\x1b[90m%s\x1b[0m'
 
-    const logLocale = new Date(Date.now()).toLocaleString()
-    // const message = `[${ logLocale }] ` + content;
-
-    console.log(
-      `[${logLocale}] ${logColor ? `${logColor}` : ''}`.trim(),
-      logContent
+    const logLocale: string = new Date(Date.now()).toLocaleString()
+    console.log(`[${logLocale}] ${logColor ?? ''}`.trim(), logMessage)
+  } else {
+    console.error(
+      `\x1b[31m[${new Date(Date.now()).toLocaleString()}] Invalid message provided to logger.\x1b[0m`
     )
   }
 }

@@ -1,11 +1,14 @@
 import { Client, GatewayIntentBits } from 'discord.js'
 import { setClientEvents } from './events/index.js'
 import { setClientCommands } from './commands/index.js'
+import { initializeOllamaSession } from './ollama/index.js'
 
-const OAUTH2_TOKEN = process.env.OAUTH2_TOKEN
+const OAUTH2_TOKEN: string | undefined = process.env.OAUTH2_TOKEN
+
+await initializeOllamaSession()
 
 // Create a new client instance
-const client = new Client({
+const client: Client<boolean> = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
