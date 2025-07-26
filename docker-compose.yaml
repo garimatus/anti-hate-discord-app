@@ -3,6 +3,8 @@ services:
     image: anti-hate-discord-app:latest
     container_name: anti-hate-discord-bot
     build: .
+    environment:
+     - ENV_FILE=${ENV_FILE}
     command: sh -c "pnpm install && pnpm run build && pnpm run deploy"
     depends_on:
       cassandra:
