@@ -6,9 +6,12 @@ import { initializeOllamaSession } from './ollama/index.js'
 const DISCORD_OAUTH2_TOKEN: string | undefined =
   process.env.DISCORD_OAUTH2_TOKEN
 
+if (!DISCORD_OAUTH2_TOKEN) {
+  throw new Error('DISCORD_OAUTH2_TOKEN is not set')
+}
+
 await initializeOllamaSession()
 
-// Create a new client instance
 const client: Client<boolean> = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -19,9 +22,7 @@ const client: Client<boolean> = new Client({
   ],
 })
 
-// Set the events and commands respectively to this client
 setClientEvents(client)
 setClientCommands(client)
 
-// Log in to Discord with your client's token
 client.login(DISCORD_OAUTH2_TOKEN)
