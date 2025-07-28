@@ -1,9 +1,13 @@
-### ENTORNO
+# Anti Hate Speech Discord App with AI detection using Ollama
 
-1. Correr el cliente de [Ollama](https://github.com/ollama/ollama).
-2. Asignar variable de entorno `export ENV_FILE="nombre archivo .env en el directorio raíz"` con el sgte. formato:
+Discord user monitoring and management bot project that integrates Ollama for LLM-agnostic use to detect hate speech in text channel messages.
 
-   ```
+## Installation and environment
+
+1. Run the [Ollama](https://github.com/ollama/ollama) client on the Docker hosting machine. (WIP: Dockerize an Ollama instance into the project)
+2. Assign the environment variable 'ENV_FILE' as following `export ENV_FILE=".env filename at root directory"` with the following format:
+
+   ```env
    DISCORD_OAUTH2_TOKEN=
    DISCORD_CLIENT_ID=
    CASSIE_HOST=
@@ -16,4 +20,4 @@
    COMPOSE_PROJECT_NAME=# opcional
    ```
 
-3. Correr `docker compose up` en el directorio raíz.
+3. Run `docker compose up` at root directory.
