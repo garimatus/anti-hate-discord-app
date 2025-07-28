@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import logger from '../../utils/logger.js'
-import type Event from '../../types/event.type.js'
+import { type Event } from '../../types/event.type.js'
 
 const { pathname: path } = new URL('../', import.meta.url)
 

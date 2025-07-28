@@ -1,6 +1,6 @@
 import { ChatResponse } from 'ollama'
 import { ollamaClient } from '../../ollama/index.js'
-import type HateSpeechResponse from '../../types/hatespeechresponse.type.js'
+import type HateSpeechResponse from '../../types/hate-speech-response.type.js'
 
 export default async function (message: string): Promise<HateSpeechResponse> {
   const response: ChatResponse = await ollamaClient.generateChatResponse(
