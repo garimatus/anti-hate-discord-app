@@ -1,9 +1,12 @@
 import { Interaction } from 'discord.js'
+import { CommandCapableClient } from '../../intefaces/command-capable-client.interface.js'
+import { type Command } from '../../types/command.type.js'
 
 export default async function (interaction: Interaction): Promise<void> {
   if (!interaction.isChatInputCommand()) return
-  // @ts-expect-error
-  const command = interaction.client.commands.get(interaction.commandName)
+  const command: Command | undefined = (
+    interaction.client as CommandCapableClient
+  ).commands.get(interaction.commandName)
 
   if (!command) {
     console.error(`No command matching ${interaction.commandName} was found.`)

@@ -1,16 +1,16 @@
 import { Collection, REST, Routes, Events } from 'discord.js'
-import handler from './utils/handler.js'
-import collecter from './utils/collecter.js'
-import deployer from './utils/deployer.js'
+import commandCollecter from './utils/collecter.js'
+import commandHandler from './utils/handler.js'
+import commandDeployer from './utils/deployer.js'
 import logger from '../utils/logger.js'
-import { Command } from '../types/command.type.js'
+import { type Command } from '../types/command.type.js'
 import { CommandCapableClient } from '../intefaces/command-capable-client.interface.js'
 
 export async function setClientCommands(
   client: CommandCapableClient
 ): Promise<void> {
   client.commands = new Collection<string, Command>()
-  const commands: Command[] | undefined = await collecter()
+  const commands: Command[] | undefined = await commandCollecter()
 
   if (!commands || !commands.length) {
     throw new Error(
@@ -20,14 +20,14 @@ export async function setClientCommands(
 
   if (process.argv[2] === 'deploy' && process.env.OAUTH2_TOKEN) {
     const rest = new REST().setToken(process.env.OAUTH2_TOKEN)
-    deployer(rest, Routes, commands)
+    commandDeployer(rest, Routes, commands)
   }
 
   commands.forEach((command: Command) =>
     client.commands.set(command.data.name, command)
   )
 
-  client.on(Events.InteractionCreate, handler)
+  client.on(Events.InteractionCreate, commandHandler)
 
   logger(
     `Succesfully added ${client.commands.size} command(s)${

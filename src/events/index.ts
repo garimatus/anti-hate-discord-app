@@ -4,7 +4,7 @@ import listener from './utils/listener.js'
 import { mapper } from '../database/index.js'
 import logger from '../utils/logger.js'
 import hateSpeechDetector from './utils/hateSpeechDetector.js'
-import Event from '../types/event.type.js'
+import { type Event } from '../types/event.type.js'
 
 export async function setClientEvents(client: Client): Promise<void> {
   const events: Event[] = await eventCollecter()
@@ -31,8 +31,4 @@ export async function setClientEvents(client: Client): Promise<void> {
     `Succesfully added ${client.eventNames().length} event(s) to client`,
     'green'
   )
-
-  client.eventNames().forEach((eventName: string | symbol) => {
-    console.log('\x1b[35m    — %s\x1b[0m', eventName)
-  })
 }

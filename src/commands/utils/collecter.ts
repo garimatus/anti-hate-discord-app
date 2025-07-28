@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import logger from '../../utils/logger.js'
-import { Command } from '../../types/command.type.js'
+import { type Command } from '../../types/command.type.js'
+
 const { pathname: path } = new URL('../', import.meta.url)
 
 export default async function (): Promise<Command[] | undefined> {
