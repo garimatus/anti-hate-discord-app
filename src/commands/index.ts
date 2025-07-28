@@ -3,21 +3,26 @@ import handler from './utils/handler.js'
 import collecter from './utils/collecter.js'
 import deployer from './utils/deployer.js'
 import logger from '../utils/logger.js'
-import Command from '../types/command.type.js'
+import { Command } from '../types/command.type.js'
+import { CommandCapableClient } from '../intefaces/command-capable-client.interface.js'
 
-export async function setClientCommands(client: any) {
-  client.commands = new Collection()
+export async function setClientCommands(
+  client: CommandCapableClient
+): Promise<void> {
+  client.commands = new Collection<string, Command>()
   const commands: Command[] | undefined = await collecter()
 
   if (!commands || !commands.length) {
-    throw new Error('There was not any valid command file found.')
+    throw new Error(
+      'No commands found. Please ensure commands are properly defined.'
+    )
   }
 
   if (process.argv[2] === 'deploy' && process.env.OAUTH2_TOKEN) {
     const rest = new REST().setToken(process.env.OAUTH2_TOKEN)
     deployer(rest, Routes, commands)
   }
-  // @ts-ignore
+
   commands.forEach((command: Command) =>
     client.commands.set(command.data.name, command)
   )
@@ -30,11 +35,4 @@ export async function setClientCommands(client: any) {
     } to client`.trim(),
     'green'
   )
-
-  client.commands.forEach((command: Command) => {
-    console.log(
-      '\x1b[35m    — %s\x1b[0m',
-      `"${'/'}${command.data.name}": ${command.data.description}`
-    )
-  })
 }

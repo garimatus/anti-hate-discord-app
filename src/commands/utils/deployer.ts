@@ -1,7 +1,7 @@
 import { REST } from 'discord.js'
 import logger from '../../utils/logger.js'
 import { mapper } from '../../database/index.js'
-import Command from '../../types/command.type.js'
+import { Command } from '../../types/command.type.js'
 import { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10'
 
 export default async function (

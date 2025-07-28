@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits } from 'discord.js'
 import { setClientEvents } from './events/index.js'
 import { setClientCommands } from './commands/index.js'
 import { initializeOllamaSession } from './ollama/index.js'
+import { CommandCapableClient } from './intefaces/command-capable-client.interface.js'
 
 const DISCORD_OAUTH2_TOKEN: string | undefined =
   process.env.DISCORD_OAUTH2_TOKEN
@@ -22,7 +23,7 @@ const client: Client<boolean> = new Client({
   ],
 })
 
-setClientEvents(client)
-setClientCommands(client)
+setClientEvents(client as CommandCapableClient)
+setClientCommands(client as CommandCapableClient)
 
 client.login(DISCORD_OAUTH2_TOKEN)
