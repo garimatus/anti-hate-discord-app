@@ -18,7 +18,7 @@ export default {
         ?.permissionsIn(message.channel as GuildChannelResolvable)
         .has('Administrator') ||
       message.author.bot ||
-      message.content.length < 5
+      !/^\s*\S+(?:\s+\S+)+\s*$/.test(message.content)
     )
       return
 
@@ -28,10 +28,7 @@ export default {
 
     if (!guild) return
 
-    const messageContent: string = message.content.replace(
-      /[^a-z0-9¡!¿? ]/gi,
-      ''
-    )
+    const messageContent: string = message.content.trimStart().trimEnd()
 
     if ((await hateSpeechDetector(messageContent)).result === true) {
       const user: User = await mapper.get({
