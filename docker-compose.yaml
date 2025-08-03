@@ -4,8 +4,8 @@ services:
     container_name: anti-hate-discord-bot
     build: .
     environment:
-     - ENV_FILE=${ENV_FILE}
-    command: sh -c "pnpm install && pnpm run build && pnpm run deploy"
+      - NODE_ENV=${NODE_ENV}
+    command: sh -c "pnpm install && pnpm build && pnpm run deploy"
     depends_on:
       cassandra:
         condition: service_healthy

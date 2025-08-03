@@ -5,10 +5,10 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && cp -r src/database/queries dist/database && cp -r src/ollama/prompts dist/ollama",
+    "build": "tsc && cp -r src/database/queries dist/database && cp -r src/ollama/prompts dist/ollama && cp -r src/scripts dist",
     "dev": "nodemon --env-file $ENV_FILE ./dist/index.js",
-    "start": "node --env-file $ENV_FILE ./dist/index.js",
-    "deploy": "node --env-file $ENV_FILE ./dist/index.js deploy"
+    "start": "sh ./dist/scripts/start.sh",
+    "deploy": "sh ./dist/scripts/start.sh deploy"
   },
   "keywords": [],
   "author": "",
