@@ -82,7 +82,8 @@ export default {
         await message.guild?.members.ban(message.author.id)
 
         message.reply(
-          `Guild user "${message.author.globalName}" has been banned due to exceed the limit number of guild's anti hate speech warnings`
+          `Guild user ${message.author.globalName} has been banned ` +
+            `due to exceed the limit number of guild's anti hate speech warnings.`
         )
 
         await mapper.update({
@@ -98,7 +99,8 @@ export default {
         })
       } else {
         message.reply(
-          `🚩:	Guild user "${message.author.globalName}" has just gotten their (${guildUser.user_warnings}/${guild.warnings_allowed}) hate speech warning`
+          `🚩: Guild user "${message.author.globalName}" has just gotten their ` +
+            `(${guildUser.user_warnings}/${guild.warnings_allowed}) hate speech warning.`
         )
       }
 
