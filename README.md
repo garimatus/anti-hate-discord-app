@@ -1,4 +1,4 @@
-# Anti Hate Speech Discord App with AI detection using Ollama
+# Anti Hate Speech Discord Bot App with real time AI detection using Ollama
 
 Discord user monitoring and management bot project that integrates Ollama for LLM-agnostic use to detect hate speech in text channel messages.
 
