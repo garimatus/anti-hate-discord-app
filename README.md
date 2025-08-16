@@ -21,12 +21,12 @@ Discord user monitoring and management bot project that integrates Ollama for LL
    COMPOSE_PROJECT_NAME=# optional
    ```
 
-    2.1 ENV_FILE values:
+    2.1 ENV_FILE values respectively by NODE_ENV value given:
 
-    | NODE_ENV | ENV_FILE |
-    |----------|----------|
-    | production | .env |
-    | development  | .env.dev  |
-    | any other | .env.local  |
+    | NODE_ENV    | ENV_FILE   |
+    |-------------|------------|
+    | production  | .env       |
+    | development | .env.dev   |
+    | any other   | .env.local |
 
 3. Run `docker compose up` at root directory.
