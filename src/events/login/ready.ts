@@ -1,5 +1,5 @@
 import { Events, Client } from 'discord.js'
-import logger from '../../utils/logger.js'
+import { logger } from '../../utils'
 
 export default {
   name: Events.ClientReady,

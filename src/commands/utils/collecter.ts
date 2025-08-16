@@ -1,10 +1,10 @@
 import fs from 'node:fs'
-import logger from '../../utils/logger.js'
-import { type Command } from '../../types/command.type.js'
+import { logger } from '../../utils'
+import type { Command } from '../../types'
 
-const { pathname: path } = new URL('../', import.meta.url)
+const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
 
-export default async function (): Promise<Command[] | undefined> {
+export async function collecter(): Promise<Command[] | undefined> {
   const commands: Command[] = []
   const commandsFoldersPath: string = path
 
@@ -17,7 +17,7 @@ export default async function (): Promise<Command[] | undefined> {
       if (fs.lstatSync(commandsPath).isDirectory() && folder !== 'utils') {
         const commandFiles: string[] = fs
           .readdirSync(commandsPath)
-          .filter((file) => file.endsWith('.js'))
+          .filter((file) => file.endsWith('.ts'))
 
         for (const file of commandFiles) {
           const filePath: string = commandsPath + '/' + file

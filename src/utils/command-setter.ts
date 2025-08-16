@@ -1,16 +1,14 @@
 import { Collection, REST, Routes, Events } from 'discord.js'
-import commandCollecter from './utils/collecter.js'
-import commandHandler from './utils/handler.js'
-import commandDeployer from './utils/deployer.js'
-import logger from '../utils/logger.js'
-import { type Command } from '../types/command.type.js'
-import { CommandCapableClient } from '../intefaces/command-capable-client.interface.js'
+import { collecter, handler, deployer } from '../commands/utils'
+import { logger } from '../utils'
+import type { Command } from '../types'
+import type { CommandCapableClient } from '../interfaces'
 
-export async function setClientCommands(
+export async function commandSetter(
   client: CommandCapableClient
 ): Promise<void> {
   client.commands = new Collection<string, Command>()
-  const commands: Command[] | undefined = await commandCollecter()
+  const commands: Command[] | undefined = await collecter()
 
   if (!commands || !commands.length) {
     throw new Error(
@@ -20,14 +18,14 @@ export async function setClientCommands(
 
   if (process.argv[2] === 'deploy' && process.env.OAUTH2_TOKEN) {
     const rest = new REST().setToken(process.env.OAUTH2_TOKEN)
-    commandDeployer(rest, Routes, commands)
+    deployer(rest, Routes, commands)
   }
 
   commands.forEach((command: Command) =>
     client.commands.set(command.data.name, command)
   )
 
-  client.on(Events.InteractionCreate, commandHandler)
+  client.on(Events.InteractionCreate, handler)
 
   logger(
     `Succesfully added ${client.commands.size} command(s)${

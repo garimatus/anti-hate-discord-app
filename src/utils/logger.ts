@@ -1,8 +1,8 @@
-import { Color } from '../types/color.type.js'
+import type { Color } from '../types'
 
-export default function (message: string, color?: Color): void {
+export function logger(message: string, color?: Color): void {
   if (message && message.length > 0) {
-    const logMessage: string = message.trim()
+    const logMessage: string = message.trimStart().trimEnd()
     let logColor: string | undefined = undefined
 
     if (color === 'black') logColor = '\x1b[30m%s\x1b[0m'

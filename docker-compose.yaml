@@ -11,13 +11,13 @@ services:
         condition: service_healthy
     links: [cassandra]
     ports: ['3000:3000', '11434:11434']
+    restart: always
   cassandra:
     container_name: anti-hate-cassie-db
     image: cassandra:latest
     ports: ['9042:9042']
     healthcheck:
-      test: sh -c "nodetool statusgossip | grep -q running"
-      start_period: 2m
-      interval: 20s
+      test: sh -c "cqlsh -e 'describe keyspaces' | grep 'anti_hate_discord_bot' | head -c 21"
+      interval: 30s
       timeout: 10s
-      retries: 2
+      retries: 3

@@ -1,4 +1,9 @@
-import { Ollama, ChatRequest, ChatResponse, Message } from 'ollama'
+import {
+  Ollama,
+  type ChatRequest,
+  type ChatResponse,
+  type Message,
+} from 'ollama'
 
 export class OllamaClient extends Ollama {
   private static instance: OllamaClient

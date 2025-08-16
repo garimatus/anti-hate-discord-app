@@ -4,7 +4,7 @@ import {
   SlashCommandStringOption,
   CommandInteraction,
 } from 'discord.js'
-import { mapper } from '../../database/index.js'
+import { mapper } from '../../database'
 
 export default {
   data: new SlashCommandBuilder()
@@ -20,17 +20,17 @@ export default {
   async execute(interaction: CommandInteraction) {
     // @ts-ignore
     if (interaction.options._hoistedOptions[0].value.length > 1) {
-      await interaction.reply(`
-				ERROR: the input prefix can't be more than 1 character long.
-			`)
+      await interaction.reply(
+        `ERROR: the input prefix can't be more than 1 character long.`
+      )
 
       return
     }
     // @ts-ignore
     if (/^[a-zA-Z0-9]+$/.test(interaction.options._hoistedOptions[0].value)) {
-      await interaction.reply(`
-				ERROR: the input prefix can't be an alphanumeric character
-			`)
+      await interaction.reply(
+        `ERROR: the input prefix can't be an alphanumeric character`
+      )
 
       return
     }
@@ -42,11 +42,11 @@ export default {
       command_prefix: interaction.options._hoistedOptions[0].value,
     })
 
-    await interaction.reply(`
-			Commands prefix updated to "${
+    await interaction.reply(
+      `Commands prefix updated to "${
         // @ts-ignore
         interaction.options._hoistedOptions[0].value
-      }"
-		`)
+      }"`
+    )
   },
 }

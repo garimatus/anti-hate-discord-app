@@ -3,7 +3,7 @@ import {
   PermissionFlagsBits,
   CommandInteraction,
 } from 'discord.js'
-import { mapper } from '../../database/index.js'
+import { mapper } from '../../database'
 
 const { pathname: path }: URL = new URL(import.meta.url)
 

@@ -1,10 +1,10 @@
 import { REST } from 'discord.js'
-import logger from '../../utils/logger.js'
-import { mapper } from '../../database/index.js'
-import { type Command } from '../../types/command.type.js'
-import { type RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10'
+import { logger } from '../../utils'
+import { mapper } from '../../database'
+import type { Command } from '../../types'
+import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10'
 
-export default async function (
+export async function deployer(
   rest: REST,
   Routes: any,
   commands: Command[]

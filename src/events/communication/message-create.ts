@@ -1,9 +1,6 @@
-import { Events, Message, GuildChannelResolvable } from 'discord.js'
+import { Events, Message, type GuildChannelResolvable } from 'discord.js'
 import { mapping } from 'cassandra-driver'
-import { type User } from '../../types/user.type.js'
-import { type Guild } from '../../types/guild.type.js'
-import { type GuildUser } from '../../types/guild-user.type.js'
-import { type HateSpeechResponse } from '../../types/hate-speech-response.type.js'
+import type { User, Guild, GuildUser, HateSpeechResponse } from '../../types'
 
 export default {
   name: Events.MessageCreate,

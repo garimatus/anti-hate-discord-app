@@ -1,5 +1,5 @@
 import { env } from 'process'
-import { z, ZodObject, ZodSafeParseResult } from 'zod'
+import { z, ZodObject, type ZodSafeParseResult } from 'zod'
 
 const schema: ZodObject = z.object({
   NODE_ENV: z

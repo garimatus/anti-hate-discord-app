@@ -1,8 +1,8 @@
-import { Interaction } from 'discord.js'
-import { CommandCapableClient } from '../../intefaces/command-capable-client.interface.js'
-import { type Command } from '../../types/command.type.js'
+import type { Interaction } from 'discord.js'
+import type { CommandCapableClient } from '../../interfaces'
+import type { Command } from '../../types'
 
-export default async function (interaction: Interaction): Promise<void> {
+export async function handler(interaction: Interaction): Promise<void> {
   if (!interaction.isChatInputCommand()) return
   const command: Command | undefined = (
     interaction.client as CommandCapableClient

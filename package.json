@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && cp -r src/database/queries dist/database && cp -r src/ollama/prompts dist/ollama && cp -r src/scripts dist",
-    "dev": "nodemon --env-file $ENV_FILE ./dist/index.js",
-    "start": "sh ./dist/scripts/start.sh",
-    "deploy": "sh ./dist/scripts/start.sh deploy"
+    "dev": "node --watch --import=tsx --env-file .env.local ./src/index.ts",
+    "start": "sh ./src/scripts/start.sh",
+    "deploy": "sh ./src/scripts/start.sh deploy"
   },
   "keywords": [],
   "author": "",
@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
-    "nodemon": "^3.0.1",
     "prettier": "3.4.1",
+    "tsx": "^4.20.4",
     "typescript": "^5.8.3"
   },
   "type": "module",

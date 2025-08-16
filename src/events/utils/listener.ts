@@ -1,8 +1,8 @@
 import { mapping } from 'cassandra-driver'
-import { type Event } from '../../types/event.type.js'
-import { type HateSpeechResponse } from '../../types/hate-speech-response.type.js'
+import type { Event } from '../../types'
+import type { HateSpeechResponse } from '../../types'
 
-export default function (
+export function listener(
   event: Event,
   mapper?: mapping.ModelMapper,
   hateSpeechDetector?: (message: string) => Promise<HateSpeechResponse>

@@ -1,9 +1,8 @@
 import { validateEnv } from './configuration/index.js'
 import { Client, GatewayIntentBits } from 'discord.js'
-import { setClientEvents } from './events/index.js'
-import { setClientCommands } from './commands/index.js'
-import { initializeOllamaSession } from './ollama/index.js'
-import { CommandCapableClient } from './intefaces/command-capable-client.interface.js'
+import { eventSetter, commandSetter } from './utils'
+import { initializeOllamaSession } from './ollama'
+import type { CommandCapableClient } from './interfaces'
 
 const config: Record<string, unknown> = validateEnv()
 
@@ -19,7 +18,7 @@ const client: Client<boolean> = new Client({
   ],
 })
 
-setClientEvents(client as CommandCapableClient)
-setClientCommands(client as CommandCapableClient)
+eventSetter(client as CommandCapableClient)
+commandSetter(client as CommandCapableClient)
 
 client.login(config.DISCORD_OAUTH2_TOKEN as string)

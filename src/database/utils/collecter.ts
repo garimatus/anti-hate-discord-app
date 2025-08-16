@@ -1,9 +1,12 @@
 import fs from 'node:fs'
-import logger from '../../utils/logger.js'
+import { logger } from '../../utils'
 
-const { pathname: path } = new URL('../queries', import.meta.url)
+const { pathname: path }: { pathname: string } = new URL(
+  '../queries',
+  import.meta.url
+)
 
-export default async function (): Promise<Object> {
+export async function collecter(): Promise<Object> {
   const queries: Object = {}
 
   try {

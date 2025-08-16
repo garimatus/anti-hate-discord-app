@@ -1,10 +1,10 @@
 import fs from 'node:fs'
-import logger from '../../utils/logger.js'
-import { type Event } from '../../types/event.type.js'
+import { logger } from '../../utils'
+import type { Event } from '../../types'
 
-const { pathname: path } = new URL('../', import.meta.url)
+const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
 
-export default async function (): Promise<Event[]> {
+export async function collecter(): Promise<Event[]> {
   const events: Event[] = []
   const eventsFoldersPath: string = path
 
@@ -17,7 +17,7 @@ export default async function (): Promise<Event[]> {
       if (fs.lstatSync(eventsPath).isDirectory() && folder !== 'utils') {
         const eventFiles: string[] = fs
           .readdirSync(eventsPath)
-          .filter((file) => file.endsWith('.js'))
+          .filter((file) => file.endsWith('.ts'))
 
         for (const file of eventFiles) {
           const filePath: string = eventsPath + '/' + file

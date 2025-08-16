@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import { ChatRequest, ChatResponse } from 'ollama'
+import type { ChatRequest, ChatResponse } from 'ollama'
 import OllamaClientInstance, {
   type OllamaClient,
 } from '../api/OllamaClient.class.js'

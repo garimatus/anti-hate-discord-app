@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, CommandInteraction } from 'discord.js'
+
 const { pathname: path } = new URL(import.meta.url)
 
 export default {

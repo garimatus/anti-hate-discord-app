@@ -1,7 +1,7 @@
 import {
   SlashCommandBuilder,
-  SlashCommandOptionsOnlyBuilder,
-  Interaction,
+  type SlashCommandOptionsOnlyBuilder,
+  type Interaction,
 } from 'discord.js'
 
 export type Command = {

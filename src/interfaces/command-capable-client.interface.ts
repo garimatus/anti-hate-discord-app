@@ -1,5 +1,5 @@
 import { Client, Collection } from 'discord.js'
-import { Command } from '../types/command.type.js'
+import type { Command } from '../types'
 
 export interface CommandCapableClient extends Client {
   commands: Collection<string, Command>

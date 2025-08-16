@@ -1,10 +1,10 @@
 import {
   Events,
   Guild,
-  GuildBasedChannel,
+  type GuildBasedChannel,
   TextChannel,
   Message,
-  PermissionsString,
+  type PermissionsString,
 } from 'discord.js'
 import { mapping } from 'cassandra-driver'
 
@@ -18,7 +18,7 @@ function relativeLeavingText(secondsToLeave: number): string {
 export default {
   name: Events.GuildCreate,
   once: true,
-  async execute(guild: Guild | undefined, mapper: mapping.ModelMapper) {
+  async execute(mapper: mapping.ModelMapper, guild?: Guild) {
     if (!guild?.available) return
 
     const generalTextChannel: TextChannel | undefined =
@@ -76,7 +76,7 @@ export default {
       await generalTextChannel.send(
         `👋 Hello there!` +
           `\nI'm your friendly AI-powered moderation bot.` +
-          `\nI help keep this server safe and respectful by detecting and managing hate speech,toxic behavior, and harmful content in real time.` +
+          `\nI help keep this server safe and respectful by detecting and managing hate speech, toxic behavior and harmful content in real time.` +
           `\n\n✅ Respect others` +
           `\n🚫 No hate speech or harassment` +
           `\n🤖 I'm always learning to improve moderation` +
