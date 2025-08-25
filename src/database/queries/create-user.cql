@@ -1,8 +1,8 @@
-CREATE TABLE IF NOT EXISTS Anti_Hate_Discord_Bot.User(
-    User_Id BIGINT PRIMARY KEY
-    ,Username VARCHAR
-    ,Global_Username VARCHAR
-    ,Avatar VARCHAR
-    ,Total_Warnings BIGINT
-    ,Total_Bans BIGINT
+CREATE TABLE IF NOT EXISTS anti_hate_discord_bot.user(
+    user_id BIGINT PRIMARY KEY
+    ,username VARCHAR
+    ,global_username VARCHAR
+    ,avatar VARCHAR
+    ,total_warnings BIGINT
+    ,total_bans BIGINT
 );

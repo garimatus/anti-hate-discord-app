@@ -36,3 +36,5 @@ export function validateEnv(): Record<string, unknown> {
 
   return parsedSchema.data
 }
+
+export { default as configurableI18n } from './i18n/ConfigurableI18n'

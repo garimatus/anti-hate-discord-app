@@ -1,4 +1,4 @@
-import { validateEnv } from './configuration/index.js'
+import { validateEnv } from './configuration'
 import { Client, GatewayIntentBits } from 'discord.js'
 import { eventSetter, commandSetter } from './utils'
 import { initializeOllamaSession } from './ollama'

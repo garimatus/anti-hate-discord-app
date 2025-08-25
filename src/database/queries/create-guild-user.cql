@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS Anti_Hate_Discord_Bot.Guild_User(
-    User_Warnings INT
-    ,User_Is_Banned BOOLEAN
-    ,Guild_Id BIGINT
-    ,User_Id BIGINT
-    ,PRIMARY KEY(Guild_Id, User_Id)
+CREATE TABLE IF NOT EXISTS anti_hate_discord_bot.guild_user(
+    user_warnings INT
+    ,user_is_banned BOOLEAN
+    ,guild_id BIGINT
+    ,user_id BIGINT
+    ,PRIMARY KEY(guild_id, user_id)
 );

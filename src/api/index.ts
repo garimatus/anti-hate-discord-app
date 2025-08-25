@@ -1,1 +1,4 @@
-export * from './OllamaClient.class'
+export {
+  default as OllamaClientInstance,
+  OllamaClient,
+} from './OllamaClient.class'

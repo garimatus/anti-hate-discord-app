@@ -57,8 +57,8 @@ export default {
       warnings_allowed: newWarningsLimit,
     })
 
-    await interaction.reply(`
-			Guild's limit value of warnings per user setted from ${warnings_allowed} to ${newWarningsLimit}
-		`)
+    await interaction.reply(
+      `Guild's limit value of warnings per user setted from ${warnings_allowed} to ${newWarningsLimit}`
+    )
   },
 }

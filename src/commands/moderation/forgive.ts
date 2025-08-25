@@ -29,9 +29,7 @@ export default {
     })
 
     if (!user) {
-      await interaction.reply(`
-				Error: user isn't at bot's database
-			`)
+      await interaction.reply(`Error: user isn't at bot's database`)
       return
     }
 
@@ -42,9 +40,9 @@ export default {
     })
 
     if (!user_warnings && !user_ban) {
-      await interaction.reply(`
-				Error: user isn't banned or hasn't any warnings at current Guild
-			`)
+      await interaction.reply(
+        `Error: user isn't banned or hasn't any warnings at current Guild`
+      )
       return
     }
 
@@ -65,8 +63,8 @@ export default {
       user_ban: false,
     })
 
-    await interaction.reply(`
-			User "${user.username}" has been forgiven in this Guild
-		`)
+    await interaction.reply(
+      `User "${user.username}" has been forgiven in this Guild`
+    )
   },
 }

@@ -1,0 +1,5 @@
+{
+  "hello": "👋 Hello there!\n\nI'm your friendly AI-powered moderation bot.\nI help keep this server safe and respectful by detecting and managing hate speech, toxic behavior and harmful content in real time.\n\n✅ Respect others\n🚫 No hate speech or harassment\n🤖 I'm always learning to improve moderation\n\nLet's build a positive community together!",
+  "ban": "Guild user %s has been banned due to exceed the limit number of guild's anti hate speech warnings.",
+  "warning": "🚩: Guild user %s has just gotten their (%s/%s) hate speech warning."
+}

@@ -1,6 +1,8 @@
 import { Events, Message, type GuildChannelResolvable } from 'discord.js'
 import { mapping } from 'cassandra-driver'
-import type { User, Guild, GuildUser, HateSpeechResponse } from '../../types'
+import type { User, GuildUser, HateSpeechResponse } from '../../types'
+import type { GuildInterface } from '../../interfaces'
+import { configurableI18n } from '../../configuration'
 
 export default {
   name: Events.MessageCreate,
@@ -8,7 +10,7 @@ export default {
   async execute(
     message: Message,
     mapper: mapping.ModelMapper,
-    hateSpeechDetector: (message: string) => Promise<HateSpeechResponse>
+    detector: (message: string) => Promise<HateSpeechResponse>
   ): Promise<void> {
     if (
       message.member
@@ -19,15 +21,17 @@ export default {
     )
       return
 
-    const guild: Guild | null = await mapper.get({
+    const guild: GuildInterface | null = await mapper.get({
       guild_id: message.guildId,
     })
 
     if (!guild) return
 
+    configurableI18n.setLocale(guild?.locale ?? 'en')
+
     const messageContent: string = message.content.trimStart().trimEnd()
 
-    if ((await hateSpeechDetector(messageContent)).result === true) {
+    if ((await detector(messageContent)).result === true) {
       const user: User = await mapper.get({
         user_id: message.author.id,
       })
@@ -79,8 +83,10 @@ export default {
         await message.guild?.members.ban(message.author.id)
 
         message.reply(
-          `Guild user ${message.author.globalName} has been banned ` +
-            `due to exceed the limit number of guild's anti hate speech warnings.`
+          configurableI18n.__(
+            'ban',
+            message.author.globalName ?? 'Unknown User'
+          )
         )
 
         await mapper.update({
@@ -96,8 +102,12 @@ export default {
         })
       } else {
         message.reply(
-          `🚩: Guild user "${message.author.globalName}" has just gotten their ` +
-            `(${guildUser.user_warnings}/${guild.warnings_allowed}) hate speech warning.`
+          configurableI18n.__(
+            'warning',
+            message.author.globalName ?? 'Unknown User',
+            guildUser.user_warnings.toString(),
+            guild.warnings_allowed.toString()
+          )
         )
       }
 

@@ -1,2 +1,2 @@
-export * from './client'
-export * from './mapper'
+export { client } from './client'
+export { mapper } from './mapper'

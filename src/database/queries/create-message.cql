@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS Anti_Hate_Discord_Bot.Message(
-    Message_Id BIGINT PRIMARY KEY
-    ,Content TEXT
-    ,Date TIMESTAMP
-    ,Guild_Id BIGINT
-    ,User_Id BIGINT
+CREATE TABLE IF NOT EXISTS anti_hate_discord_bot.message(
+    message_id BIGINT PRIMARY KEY
+    ,content TEXT
+    ,date TIMESTAMP
+    ,guild_id BIGINT
+    ,user_id BIGINT
 );

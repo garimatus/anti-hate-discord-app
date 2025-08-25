@@ -1,0 +1,5 @@
+{
+  "hello": "👋 ¡Hola!\n\nSoy tu amigable bot de moderación impulsado por IA.\nAyudo a mantener este servidor seguro y respetuoso detectando y gestionando discursos de odio, comportamientos tóxicos y contenido dañino en tiempo real.\n\n✅ Respeta a los demás\n🚫 Nada de discursos de odio ni acoso\n🤖 Siempre estoy aprendiendo para mejorar la moderación\n\n¡Construyamos juntos una comunidad positiva!",
+  "ban": "El usuario del gremio %s ha sido expulsado debido a que superó el número límite de advertencias del sistema anti discurso de odio del gremio.",
+  "warning": "🚩: El usuario del gremio %s acaba de recibir su (%s/%s) advertencia por discurso de odio."
+}
