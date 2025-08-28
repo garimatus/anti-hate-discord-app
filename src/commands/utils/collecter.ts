@@ -1,6 +1,6 @@
 import fs from 'node:fs'
-import { Collection } from 'discord.js'
 import * as Path from 'path'
+import { Collection } from 'discord.js'
 import { logger } from '../../utils'
 import type { Command } from '../../types'
 

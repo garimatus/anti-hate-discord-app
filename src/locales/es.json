@@ -8,5 +8,9 @@
   "limit-change-success": "El valor límite de advertencias por usuario en el Gremio (Guild) se cambió de %s a %s",
   "limit-change-error-1": "Error: el nuevo valor límite no es un número",
   "limit-change-error-2": "Error: el nuevo valor límite no puede ser menor que cero",
-  "limit-change-error-3": "Error: el nuevo valor límite de advertencias permitidas en el Gremio (Guild) no puede ser igual al actual (%s)"
+  "limit-change-error-3": "Error: el nuevo valor límite de advertencias permitidas en el Gremio (Guild) no puede ser igual al actual (%s)",
+  "forgive-error-1": "Error: ID de usuario no válido",
+  "forgive-error-2": "Error: el usuario no está en la base de datos de este Gremio (Guild)",
+  "forgive-error-3": "Error: el usuario no tiene advertencias y no está baneado en este Gremio (Guild)",
+  "forgive-success": "El usuario \"%s\" ha sido perdonado en este Gremio (Guild)"
 }

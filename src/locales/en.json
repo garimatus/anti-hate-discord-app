@@ -8,5 +8,9 @@
   "limit-change-success": "Guild limit value of warnings per user changed from %s to %s",
   "limit-change-error-1": "Error: The new limit value isn't a number",
   "limit-change-error-2": "Error: The new limit value cannot be less than zero",
-  "limit-change-error-3": "Error: the new limit value of warnings allowed in Guild cannot be the same as the current one (%s)"
+  "limit-change-error-3": "Error: the new limit value of warnings allowed in Guild cannot be the same as the current one (%s)",
+  "forgive-error-1": "Error: invalid user ID",
+  "forgive-error-2": "Error: user isn't at Guild database",
+  "forgive-error-3": "Error: user hasn't any warnings and isn't banned at current Guild",
+  "forgive-success": "User \"%s\" has been forgiven in this Guild"
 }
