@@ -1,4 +1,4 @@
-import { Client, Events } from 'discord.js'
+import { Client, Events, Collection } from 'discord.js'
 import { collecter, listener, detector } from '../events/utils'
 import { mapper } from '../database'
 import { configurableI18n } from '../configuration'
@@ -6,9 +6,9 @@ import { logger } from '../utils'
 import type { Event } from '../types'
 
 export async function eventSetter(client: Client): Promise<void> {
-  const events: Event[] = await collecter()
+  const events: Collection<string, Event> = await collecter()
 
-  if (!events?.length) {
+  if (!events?.size) {
     throw new Error('There was not any valid event file found.')
   }
 
