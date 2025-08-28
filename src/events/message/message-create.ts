@@ -2,7 +2,7 @@ import { Events, Message, type GuildChannelResolvable } from 'discord.js'
 import { mapping } from 'cassandra-driver'
 import type { User, GuildUser, HateSpeechResponse } from '../../types'
 import type { GuildInterface } from '../../interfaces'
-import { configurableI18n } from '../../configuration'
+import type { ConfigurableI18n } from '../../configuration/i18n/ConfigurableI18n'
 
 export default {
   name: Events.MessageCreate,
@@ -10,6 +10,7 @@ export default {
   async execute(
     message: Message,
     mapper: mapping.ModelMapper,
+    configurableI18n: ConfigurableI18n,
     detector: (message: string) => Promise<HateSpeechResponse>
   ): Promise<void> {
     if (
@@ -26,8 +27,6 @@ export default {
     })
 
     if (!guild) return
-
-    configurableI18n.setLocale(guild?.locale ?? 'en')
 
     const messageContent: string = message.content.trimStart().trimEnd()
 

@@ -1,5 +1,12 @@
 {
-  "hello": "👋 ¡Hola!\n\nSoy tu amigable bot de moderación impulsado por IA.\nAyudo a mantener este servidor seguro y respetuoso detectando y gestionando discursos de odio, comportamientos tóxicos y contenido dañino en tiempo real.\n\n✅ Respeta a los demás\n🚫 Nada de discursos de odio ni acoso\n🤖 Siempre estoy aprendiendo para mejorar la moderación\n\n¡Construyamos juntos una comunidad positiva!",
-  "ban": "El usuario del gremio %s ha sido expulsado debido a que superó el número límite de advertencias del sistema anti discurso de odio del gremio.",
-  "warning": "🚩: El usuario del gremio %s acaba de recibir su (%s/%s) advertencia por discurso de odio."
+  "hello-guild": "👋 ¡Hola!\n\nSoy tu amigable bot de moderación impulsado por IA.\nAyudo a mantener este servidor seguro y respetuoso detectando y gestionando discursos de odio, comportamientos tóxicos y contenido dañino en tiempo real.\n\n✅ Respeta a los demás\n🚫 Nada de discursos de odio ni acoso\n🤖 Siempre estoy aprendiendo para mejorar la moderación\n\n¡Construyamos juntos una comunidad positiva!",
+  "hello-user": "Saludos a %s en %s!",
+  "ban": "El usuario del Gremio (Guild) %s ha sido expulsado debido a que superó el número límite de advertencias del sistema anti discurso de odio del Gremio (Guild).",
+  "warning": "🚩: El usuario del Gremio (Guild) %s acaba de recibir su (%s/%s) advertencia por discurso de odio.",
+  "locale-change-success": "La configuración regional del Gremio (Guild) ha sido cambiada a \"%s\"",
+  "locale-change-error": "Error: configuración regional inválida \"%s\"",
+  "limit-change-success": "El valor límite de advertencias por usuario en el Gremio (Guild) se cambió de %s a %s",
+  "limit-change-error-1": "Error: el nuevo valor límite no es un número",
+  "limit-change-error-2": "Error: el nuevo valor límite no puede ser menor que cero",
+  "limit-change-error-3": "Error: el nuevo valor límite de advertencias permitidas en el Gremio (Guild) no puede ser igual al actual (%s)"
 }

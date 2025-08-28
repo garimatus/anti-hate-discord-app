@@ -9,12 +9,16 @@ import {
 import { mapping } from 'cassandra-driver'
 import { relativeLeavingText } from '../utils'
 import type { GuildInterface } from '../../interfaces'
-import { configurableI18n } from '../../configuration'
+import type { ConfigurableI18n } from '../../configuration/i18n/ConfigurableI18n'
 
 export default {
   name: Events.GuildCreate,
   once: false,
-  async execute(guild: Guild, mapper: mapping.ModelMapper) {
+  async execute(
+    guild: Guild,
+    mapper: mapping.ModelMapper,
+    configurableI18n: ConfigurableI18n
+  ) {
     if (!guild.available || !guild.members.me) {
       await guild.leave()
       return
@@ -76,8 +80,7 @@ export default {
     }
 
     if (generalTextChannel?.isSendable()) {
-      configurableI18n.setLocale(guildById?.locale ?? 'en')
-      await generalTextChannel.send(configurableI18n.__('hello'))
+      await generalTextChannel.send(configurableI18n.__('hello-guild'))
     }
   },
 }

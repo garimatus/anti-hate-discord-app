@@ -1,3 +1,3 @@
-export * from './collecter.ts'
-export * from './handler.ts'
-export * from './deployer.ts'
+export { collecter } from './collecter.ts'
+export { handler } from './handler.ts'
+export { deployer } from './deployer.ts'

@@ -1,6 +1,8 @@
 import type { Interaction } from 'discord.js'
 import type { CommandCapableClient } from '../../interfaces'
 import type { Command } from '../../types'
+import { configurableI18n } from '../../configuration'
+import { mapper } from '../../database'
 
 export async function handler(interaction: Interaction): Promise<void> {
   if (!interaction.isChatInputCommand()) return
@@ -14,6 +16,13 @@ export async function handler(interaction: Interaction): Promise<void> {
   }
 
   try {
+    configurableI18n.setLocale(
+      (
+        await mapper.get({
+          guild_id: interaction.guild?.id,
+        })
+      ).locale ?? 'en'
+    )
     await command.execute(interaction)
   } catch (error: any) {
     console.error(error)

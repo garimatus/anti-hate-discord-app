@@ -5,6 +5,7 @@ import {
   CommandInteraction,
 } from 'discord.js'
 import { mapper } from '../../database'
+import { configurableI18n } from '../../configuration'
 
 const { pathname: path }: URL = new URL(import.meta.url)
 
@@ -12,13 +13,13 @@ export default {
   data: new SlashCommandBuilder()
     .setName((await import('path')).parse(path.split('/').pop()!!).name)
     .setDescription(
-      'Sets the limit value of allowed warnings per user at current guild.'
+      'Sets the limit value of allowed warnings per user at current Guild.'
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option: SlashCommandStringOption) => {
       return option
         .setName('limit')
-        .setDescription('The new value of max warnings allowed.')
+        .setDescription('The new value of maximum warnings allowed')
         .setRequired(true)
     }),
   async execute(interaction: CommandInteraction) {
@@ -28,12 +29,12 @@ export default {
     )
 
     if (!Number(newWarningsLimit)) {
-      interaction.reply(`The new limit value isn't a number`)
+      interaction.reply(configurableI18n.__mf('limit-change-error-1'))
       return
     }
 
     if (newWarningsLimit < 0) {
-      interaction.reply(`The new limit value cannot be less than zero`)
+      interaction.reply(configurableI18n.__mf('limit-change-error-2'))
       return
     }
 
@@ -44,9 +45,9 @@ export default {
       }
     )
 
-    if (newWarningsLimit == warnings_allowed) {
+    if (newWarningsLimit === warnings_allowed) {
       interaction.reply(
-        `Error: the new limit value of warnings allowed in Guild cannot be the old one`
+        configurableI18n.__('limit-change-error-3', newWarningsLimit.toString())
       )
       return
     }
@@ -58,7 +59,11 @@ export default {
     })
 
     await interaction.reply(
-      `Guild's limit value of warnings per user setted from ${warnings_allowed} to ${newWarningsLimit}`
+      configurableI18n.__(
+        'limit-change-success',
+        warnings_allowed.toString(),
+        newWarningsLimit.toString()
+      )
     )
   },
 }

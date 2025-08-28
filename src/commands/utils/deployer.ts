@@ -1,4 +1,4 @@
-import { REST } from 'discord.js'
+import { REST, Collection } from 'discord.js'
 import { logger } from '../../utils'
 import { mapper } from '../../database'
 import type { Command } from '../../types'
@@ -7,7 +7,7 @@ import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-ap
 export async function deployer(
   rest: REST,
   Routes: any,
-  commands: Command[]
+  commands: Collection<string, Command>
 ): Promise<void> {
   try {
     const commandsJsoned: RESTPostAPIChatInputApplicationCommandsJSONBody[] = []
@@ -15,29 +15,29 @@ export async function deployer(
       commandsJsoned.push(command.data.toJSON())
     })
 
-    logger(
-      `Started refreshing ${commandsJsoned.length} application (/) commands.`,
-      'green'
-    )
-
-    const guildsCount: number = (
+    const guildsCounter: number = (
       await mapper.mapWithQuery(
         `SELECT
-        COUNT(Guild_Id) AS Guilds_Count
+        COUNT(guild_id) AS guilds_counter
       FROM
-        Anti_Hate_Discord_Bot.Guild`,
+        anti_hate_discord_bot.guild`,
         (guild_id: any[]) => guild_id
       )([])
-    ).first().Guilds_Count
+    ).first().guilds_counter as number | 0
 
-    if (guildsCount > 0) {
-      const data: any = await rest.put(
-        Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
-        { body: commandsJsoned }
+    if (guildsCounter > 0) {
+      logger(
+        `Started refreshing ${commandsJsoned.length} application (/) commands.`,
+        'green'
       )
 
+      const deploymentResponseData: unknown[] = (await rest.put(
+        Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
+        { body: commandsJsoned }
+      )) as unknown[]
+
       logger(
-        `Successfully reloaded ${data.length} application (/) commands into ${guildsCount} guild(s).`,
+        `Successfully reloaded ${deploymentResponseData.length} application (/) commands into ${guildsCounter} guild(s).`,
         'green'
       )
     }

@@ -1,6 +1,7 @@
 import { Client, Events } from 'discord.js'
 import { collecter, listener, detector } from '../events/utils'
 import { mapper } from '../database'
+import { configurableI18n } from '../configuration'
 import { logger } from '../utils'
 import type { Event } from '../types'
 
@@ -13,15 +14,22 @@ export async function eventSetter(client: Client): Promise<void> {
 
   events.forEach((event: Event) => {
     if (event.once) {
-      client.once(event.name, listener(event, mapper))
+      client.once(
+        event.name,
+        listener(event, mapper, configurableI18n, undefined)
+      )
     }
 
     if (!event.once) {
-      if (event.name === Events.MessageCreate) {
-        client.on(event.name, listener(event, mapper, detector))
-      } else {
-        client.on(event.name, listener(event, mapper))
-      }
+      client.on(
+        event.name,
+        listener(
+          event,
+          mapper,
+          configurableI18n,
+          event.name === Events.MessageCreate ? detector : undefined
+        )
+      )
     }
   })
 

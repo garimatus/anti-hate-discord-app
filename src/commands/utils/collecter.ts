@@ -1,11 +1,16 @@
 import fs from 'node:fs'
+import { Collection } from 'discord.js'
+import * as Path from 'path'
 import { logger } from '../../utils'
 import type { Command } from '../../types'
 
 const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
 
-export async function collecter(): Promise<Command[] | undefined> {
-  const commands: Command[] = []
+export async function collecter(): Promise<Collection<string, Command>> {
+  const commands: Collection<string, Command> = new Collection<
+    string,
+    Command
+  >()
   const commandsFoldersPath: string = path
 
   try {
@@ -21,11 +26,10 @@ export async function collecter(): Promise<Command[] | undefined> {
 
         for (const file of commandFiles) {
           const filePath: string = commandsPath + '/' + file
-          // Set a new item in the Collection with the key as the command name and the value as the exported module
           const command: Command = (await import(filePath)).default
 
           if ('data' in command && 'execute' in command) {
-            commands.push(command)
+            commands.set(Path.basename(file, Path.extname(file)), command)
           } else {
             logger(
               `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
@@ -35,12 +39,12 @@ export async function collecter(): Promise<Command[] | undefined> {
         }
       }
     }
-
-    return commands
   } catch (error: any) {
     logger(
       `[ERROR] An error has ocurred while trying to collect all command files: ${error}`,
       'red'
     )
   }
+
+  return commands
 }
