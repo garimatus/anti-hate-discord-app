@@ -26,13 +26,13 @@ export class ConfigurableI18n extends I18n {
   }
 
   public static setLocale(locale: string): void {
-    if (ConfigurableI18n.locales.includes(locale)) {
+    if (ConfigurableI18n.instance.getLocales().includes(locale)) {
       ConfigurableI18n.setLocale(locale)
     } else {
       console.warn(
         `Locale ${locale} is not supported. Falling back to default locale.`
       )
-      ConfigurableI18n.setLocale(ConfigurableI18n.defaultLocale)
+      ConfigurableI18n.setLocale(ConfigurableI18n.instance.getLocale())
     }
   }
 }
