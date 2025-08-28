@@ -1,11 +1,11 @@
 {
   "name": "anti-hate-discord-app",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Discord user monitoring and management bot application using Ollama for LLM-agnostic hate speech detection",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && cp -r src/database/queries dist/database && cp -r src/ollama/prompts dist/ollama && cp -r src/scripts dist",
+    "build": "sh ./src/scripts/build.sh",
     "dev": "node --watch --import=tsx --env-file .env.local ./src/index.ts",
     "start": "sh ./src/scripts/start.sh",
     "deploy": "sh ./src/scripts/start.sh deploy"
