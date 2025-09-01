@@ -17,8 +17,7 @@ export async function initializeOllamaSession(): Promise<void> {
 
   const response: ChatResponse =
     await OllamaClientInstance.generateChatResponse(contextRequest)
-
-  if (!response || response.message.content !== 'OK') {
+  if (!response || response.message.content.trim() !== 'OK') {
     throw new Error(
       'Failed to initialize the Ollama API Client with given context'
     )
