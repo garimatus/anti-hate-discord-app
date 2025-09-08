@@ -20,15 +20,15 @@ export async function commandSetter(
     client.commands.set(command.data.name, command)
   )
 
+  logger(
+    `Succesfully added ${client.commands.size} command(s) to client`,
+    'green'
+  )
+
   client.on(Events.InteractionCreate, handler)
 
   if (isDeployment && process.env.DISCORD_OAUTH2_TOKEN) {
     const rest: REST = new REST().setToken(process.env.DISCORD_OAUTH2_TOKEN)
     deployer(rest, Routes, client.commands)
-  } else {
-    logger(
-      `Succesfully added ${client.commands.size} command(s) to client`,
-      'green'
-    )
   }
 }
