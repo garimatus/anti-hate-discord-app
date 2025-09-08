@@ -3,21 +3,35 @@ services:
     image: anti-hate-discord-app:latest
     container_name: anti-hate-discord-bot
     build: .
-    environment:
-      - NODE_ENV=${NODE_ENV}
+    environment: ['NODE_ENV=${NODE_ENV}']
     command: sh -c "pnpm install && pnpm build && pnpm run deploy"
     depends_on:
       cassandra:
         condition: service_healthy
-    links: [cassandra]
-    ports: ['3000:3000', '11434:11434']
+      ollama:
+        condition: service_healthy
+    links: [cassandra, ollama]
+    ports: ['3000:3000']
     restart: always
   cassandra:
     container_name: anti-hate-cassie-db
     image: cassandra:latest
     ports: ['9042:9042']
     healthcheck:
-      test: sh -c "cqlsh -e 'describe keyspaces' | grep 'anti_hate_discord_bot' | head -c 21"
+      test: sh -c "cqlsh -e 'describe keyspaces' | grep -x 'anti_hate_discord_bot' | head -c 21"
       interval: 30s
-      timeout: 10s
+      timeout: 5s
       retries: 3
+  ollama:
+    container_name: anti-hate-ollama-service
+    build: ./src/ollama
+    environment: ['DETECTION_MODEL=${DETECTION_MODEL:-gemma3:1b}'] # Default to gemma3:1b
+    ports: ['11434:11434']
+    volumes: ['ollama-data:/root/.ollama']
+    healthcheck:
+      test: sh /root/.ollama/healthcheck.sh
+      interval: 1m
+      timeout: 5s
+      retries: 3
+volumes:
+    ollama-data:

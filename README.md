@@ -4,7 +4,7 @@ Discord user monitoring and management bot project that integrates Ollama for LL
 
 ## Installation and environment
 
-1. Run the [Ollama](https://github.com/ollama/ollama) client on the Docker hosting machine. (WIP: Dockerize an Ollama instance into the project)
+1. Run the [Ollama](https://github.com/ollama/ollama) client on the Docker hosting machine.
 2. Assign the environment variable 'NODE_ENV' as following `export NODE_ENV="development or production or local"` with the following format:
 
    ```env
@@ -29,4 +29,5 @@ Discord user monitoring and management bot project that integrates Ollama for LL
     | development | .env.dev   |
     | any other   | .env.local |
 
+    2.2 Assign $DETECTION_MODEL to be pulled with the Ollama API service container. Default is "gemma3:1b" because of its lightweight.
 3. Run `docker compose up` at root directory.
