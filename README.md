@@ -29,5 +29,5 @@ Discord user monitoring and management bot project that integrates Ollama for LL
     | development | .env.dev   |
     | any other   | .env.local |
 
-    2.2 Assign $DETECTION_MODEL to be pulled with the Ollama API service container. Default is "gemma3:1b" because of its lightweight.
+    2.2 Assign $DETECTION_MODEL environment variable to be pulled with the Ollama API service container initialization. If not it will be set default as "gemma3:1b".
 3. Run `docker compose up` at root directory.
