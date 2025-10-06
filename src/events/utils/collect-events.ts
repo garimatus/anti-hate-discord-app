@@ -6,7 +6,7 @@ import type { Event } from '../../types'
 
 const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
 
-export async function collecter(): Promise<Collection<string, Event>> {
+export async function collectEvents(): Promise<Collection<string, Event>> {
   const events: Collection<string, Event> = new Collection<string, Event>()
   const eventsFoldersPath: string = path
 

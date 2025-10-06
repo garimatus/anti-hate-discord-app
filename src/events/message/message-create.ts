@@ -1,6 +1,6 @@
 import { Events, Message, type GuildChannelResolvable } from 'discord.js'
 import { mapping } from 'cassandra-driver'
-import type { User, GuildUser, HateSpeechResponse } from '../../types'
+import type { User, GuildUser, AnalysisResponse } from '../../types'
 import type { GuildInterface } from '../../interfaces'
 import type { ConfigurableI18n } from '../../configuration/i18n/ConfigurableI18n'
 
@@ -9,9 +9,9 @@ export default {
   once: false,
   async execute(
     message: Message,
-    mapper: mapping.ModelMapper,
+    modelMapper: mapping.ModelMapper,
     configurableI18n: ConfigurableI18n,
-    detector: (message: string) => Promise<HateSpeechResponse>
+    detector: (message: string) => Promise<AnalysisResponse>
   ): Promise<void> {
     if (
       message.member
@@ -22,7 +22,7 @@ export default {
     )
       return
 
-    const guild: GuildInterface | null = await mapper.get({
+    const guild: GuildInterface | null = await modelMapper.get({
       guild_id: message.guildId,
     })
 
@@ -31,12 +31,12 @@ export default {
     const messageContent: string = message.content.trimStart().trimEnd()
 
     if ((await detector(messageContent)).result === true) {
-      const user: User = await mapper.get({
+      const user: User = await modelMapper.get({
         user_id: message.author.id,
       })
 
       if (!user) {
-        mapper.insert({
+        modelMapper.insert({
           user_id: message.author.id,
           username: message.author.username,
           global_username: message.author.globalName,
@@ -45,7 +45,7 @@ export default {
           total_bans: 0,
         })
       } else {
-        await mapper.update({
+        await modelMapper.update({
           user_id: message.author.id,
           global_username: message.author.globalName,
           avatar: message.author.avatar,
@@ -53,27 +53,27 @@ export default {
         })
       }
 
-      let guildUser: GuildUser = await mapper.get({
+      let guildUser: GuildUser = await modelMapper.get({
         user_id: message.author.id,
         guild_id: message.guildId,
       })
 
       if (!guildUser) {
-        await mapper.insert({
+        await modelMapper.insert({
           guild_id: message.guildId,
           user_id: message.author.id,
           user_warnings: 1,
           user_is_banned: false,
         })
       } else {
-        await mapper.update({
+        await modelMapper.update({
           guild_id: message.guildId,
           user_id: message.author.id,
           user_warnings: guildUser.user_warnings + 1,
         })
       }
 
-      guildUser = await mapper.get({
+      guildUser = await modelMapper.get({
         user_id: message.author.id,
         guild_id: message.guildId,
       })
@@ -88,14 +88,14 @@ export default {
           )
         )
 
-        await mapper.update({
+        await modelMapper.update({
           guild_id: message.guildId,
           user_id: message.author.id,
           user_is_banned: true,
           bans: guild.bans++,
         })
 
-        await mapper.update({
+        await modelMapper.update({
           user_id: message.author.id,
           total_bans: user.total_bans + 1,
         })
@@ -110,7 +110,7 @@ export default {
         )
       }
 
-      await mapper.insert({
+      await modelMapper.insert({
         message_id: message.id,
         content: message.content,
         date: new Date(Date.now()).toISOString(),

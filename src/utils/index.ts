@@ -1,3 +1,3 @@
-export { commandSetter } from './command-setter.js'
-export { eventSetter } from './event-setter.js'
-export { logger } from './logger.js'
+export { setUpCommands } from './set-up-commands'
+export { setUpEvents } from './set-up-events'
+export { logger } from './logger'

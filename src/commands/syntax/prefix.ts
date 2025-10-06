@@ -4,7 +4,7 @@ import {
   SlashCommandStringOption,
   CommandInteraction,
 } from 'discord.js'
-import { mapper } from '../../database'
+import { modelMapper } from '../../database'
 
 export default {
   data: new SlashCommandBuilder()
@@ -35,7 +35,7 @@ export default {
       return
     }
 
-    await mapper.update({
+    await modelMapper.update({
       // @ts-ignore
       guild_id: interaction.member?.guild.id,
       // @ts-ignore

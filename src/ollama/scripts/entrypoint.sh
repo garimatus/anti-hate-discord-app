@@ -11,9 +11,9 @@ until curl -sf http://localhost:11434/ > /dev/null; do
   sleep 1
 done
 
-echo "📥 Pulling model: $DETECTION_MODEL..."
-if ! ollama pull $DETECTION_MODEL; then
-  echo "❌ Failed to pull model: $DETECTION_MODEL" >&2
+echo "📥 Pulling model: $ANALYSIS_MODEL..."
+if ! ollama pull $ANALYSIS_MODEL; then
+  echo "❌ Failed to pull model: $ANALYSIS_MODEL" >&2
   kill $OLLAMA_PID
   exit 1
 fi

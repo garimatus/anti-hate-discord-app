@@ -1,2 +1,2 @@
-export { client } from './client'
-export { mapper } from './mapper'
+export { cassieClient } from './cassie-client'
+export { modelMapper } from './model-mapper'

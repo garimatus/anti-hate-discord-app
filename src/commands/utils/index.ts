@@ -1,3 +1,3 @@
-export { collecter } from './collecter.ts'
-export { handler } from './handler.ts'
-export { deployer } from './deployer.ts'
+export { collectCommands } from './collect-commands'
+export { handleInteraction } from './handle-interaction'
+export { deployCommands } from './deploy-commands'

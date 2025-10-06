@@ -5,7 +5,7 @@ import {
   CommandInteraction,
   Locale,
 } from 'discord.js'
-import { mapper } from '../../database'
+import { modelMapper } from '../../database'
 import { configurableI18n } from '../../configuration'
 
 export default {
@@ -32,7 +32,7 @@ export default {
       return
     } else {
       const locale: string = interactionLocale.substring(0, 2)
-      await mapper.update({
+      await modelMapper.update({
         // @ts-ignore
         guild_id: interaction.member?.guild.id,
         locale,

@@ -1,4 +1,4 @@
-export { collecter } from './collecter'
-export { detector } from './detector'
-export { listener } from './listener'
-export { relativeLeavingText } from './relative-leaving-text'
+export { collectEvents } from './collect-events'
+export { analyzeMessage } from './analyze-message'
+export { eventListener } from './event-listener'
+export { leavingText } from './leaving-text'

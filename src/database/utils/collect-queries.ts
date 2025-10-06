@@ -6,8 +6,8 @@ const { pathname: path }: { pathname: string } = new URL(
   import.meta.url
 )
 
-export async function collecter(): Promise<Object> {
-  const queries: Object = {}
+export async function collectQueries(): Promise<Record<string, string>> {
+  const queries: Record<string, string> = {}
 
   try {
     const queriesFiles: string[] = fs

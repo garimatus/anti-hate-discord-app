@@ -1,14 +1,14 @@
 import { Client, Guild, Message } from 'discord.js'
 import { mapping } from 'cassandra-driver'
 import type { Event } from '../../types'
-import type { HateSpeechResponse } from '../../types'
+import type { AnalysisResponse } from '../../types'
 import type { ConfigurableI18n } from '../../configuration/i18n/ConfigurableI18n'
 
-export function listener(
+export function eventListener(
   event: Event,
-  mapper: mapping.ModelMapper,
+  modelMapper: mapping.ModelMapper,
   configurableI18n: ConfigurableI18n,
-  detector?: (message: string) => Promise<HateSpeechResponse>
+  detector?: (message: string) => Promise<AnalysisResponse>
 ) {
   return async (entity: Client | Guild | Message) => {
     const guildId: string | null | undefined =
@@ -19,9 +19,9 @@ export function listener(
           : undefined
     if (guildId) {
       configurableI18n?.setLocale(
-        (await mapper?.get({ guild_id: guildId }))?.locale ?? 'en'
+        (await modelMapper?.get({ guild_id: guildId }))?.locale ?? 'en'
       )
     }
-    event.execute(entity, mapper, configurableI18n, detector)
+    event.execute(entity, modelMapper, configurableI18n, detector)
   }
 }

@@ -7,13 +7,11 @@ import {
 
 export class OllamaClient extends Ollama {
   private static instance: OllamaClient
+  private _model: string = process.env.OLLAMA_API_MODEL ?? 'gemma3:1b'
   private _sessions: Record<string, Message[]> = { 'default-session': [] }
-
   private constructor() {
     super({
-      host:
-        `${process.env.OLLAMA_API_HOST}:${process.env.OLLAMA_API_PORT}` ||
-        'http://localhost:11434',
+      host: `${process.env.OLLAMA_API_HOST ?? 'localhost'}:${process.env.OLLAMA_API_PORT ?? '11434'}`,
     })
   }
 
@@ -25,9 +23,17 @@ export class OllamaClient extends Ollama {
   }
 
   public set session(session: Record<string, Message[]>) {
-    this._sessions = session
+    const sessionId: string = Object.keys(session)[0]
+    if (!this.getSession(sessionId)) {
+      this._sessions[sessionId] = [...session[sessionId].values()]
+      return
+    }
+    this._sessions[sessionId].push(
+      ...(Object.entries(session).at(0)?.[1] ?? [])
+    )
   }
-  public getSessionById(sessionId: string): Message[] | undefined {
+
+  public getSession(sessionId: string): Message[] | undefined {
     return this._sessions[sessionId]
   }
 
@@ -40,9 +46,12 @@ export class OllamaClient extends Ollama {
     sessionId?: string
   ): Promise<ChatResponse> {
     return await this.chat({
-      model: process.env.OLLAMA_API_MODEL || chatRequest.model,
+      model: this._model,
       messages: [
-        ...this._sessions[sessionId || 'default-session'],
+        ...(this._sessions['tests-session'] ??
+          (sessionId ? this._sessions[sessionId] : undefined) ??
+          this._sessions['default-session'] ??
+          []),
         ...chatRequest.messages!!,
       ],
     })

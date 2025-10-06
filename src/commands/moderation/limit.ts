@@ -4,7 +4,7 @@ import {
   SlashCommandStringOption,
   CommandInteraction,
 } from 'discord.js'
-import { mapper } from '../../database'
+import { modelMapper } from '../../database'
 import { configurableI18n } from '../../configuration'
 
 const { pathname: path }: URL = new URL(import.meta.url)
@@ -38,12 +38,11 @@ export default {
       return
     }
 
-    const { warnings_allowed }: { warnings_allowed: number } = await mapper.get(
-      {
+    const { warnings_allowed }: { warnings_allowed: number } =
+      await modelMapper.get({
         // @ts-ignore
         guild_id: interaction.member?.guild.id,
-      }
-    )
+      })
 
     if (newWarningsLimit === warnings_allowed) {
       interaction.reply(
@@ -52,7 +51,7 @@ export default {
       return
     }
 
-    await mapper.update({
+    await modelMapper.update({
       // @ts-ignore
       guild_id: interaction.member?.guild.id,
       warnings_allowed: newWarningsLimit,

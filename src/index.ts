@@ -1,12 +1,12 @@
 import { validateEnv } from './configuration'
 import { Client, GatewayIntentBits } from 'discord.js'
-import { eventSetter, commandSetter } from './utils'
+import { setUpEvents, setUpCommands } from './utils'
 import { initializeOllamaSession } from './ollama'
 import type { CommandCapableClient } from './interfaces'
 
 const config: Record<string, unknown> = validateEnv()
 
-await initializeOllamaSession()
+await initializeOllamaSession('messages-analysis')
 
 const client: Client<boolean> = new Client({
   intents: [
@@ -18,7 +18,7 @@ const client: Client<boolean> = new Client({
   ],
 })
 
-eventSetter(client as CommandCapableClient)
-commandSetter(client as CommandCapableClient)
+setUpEvents(client as CommandCapableClient)
+setUpCommands(client as CommandCapableClient)
 
 client.login(config.DISCORD_OAUTH2_TOKEN as string)

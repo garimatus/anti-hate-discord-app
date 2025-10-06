@@ -4,15 +4,25 @@ services:
     container_name: anti-hate-discord-bot
     build: .
     environment: ['NODE_ENV=${NODE_ENV}']
-    command: sh -c "pnpm install && pnpm build && pnpm run deploy"
     depends_on:
+      # application-tests:
+      #   condition: service_completed_successfully
       cassandra:
         condition: service_healthy
       ollama:
         condition: service_healthy
+    # links: [application-tests, cassandra, ollama]
     links: [cassandra, ollama]
     ports: ['3000:3000']
-    restart: always
+    restart: on-failure
+  # application-tests:
+  #   build:
+  #     dockerfile: ./tests/Dockerfile
+  #     context: .
+  #   container_name: anti-hate-discord-bot-tests
+  #   volumes:
+  #     - .:/application
+  #   environment: ['NODE_ENV=${NODE_ENV:-test}']
   cassandra:
     container_name: anti-hate-cassie-db
     image: cassandra:latest
@@ -25,7 +35,7 @@ services:
   ollama:
     container_name: anti-hate-ollama-service
     build: ./src/ollama
-    environment: ['DETECTION_MODEL=${DETECTION_MODEL:-gemma3:1b}'] # Default to gemma3:1b
+    environment: ['ANALYSIS_MODEL=${ANALYSIS_MODEL:-gemma3:1b}'] # Default to gemma3:1b
     ports: ['11434:11434']
     volumes: ['ollama-data:/root/.ollama']
     healthcheck:

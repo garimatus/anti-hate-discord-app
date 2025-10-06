@@ -6,7 +6,7 @@ import type { Command } from '../../types'
 
 const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
 
-export async function collecter(): Promise<Collection<string, Command>> {
+export async function collectCommands(): Promise<Collection<string, Command>> {
   const commands: Collection<string, Command> = new Collection<
     string,
     Command

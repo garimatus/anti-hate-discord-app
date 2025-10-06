@@ -3,7 +3,7 @@ import {
   PermissionFlagsBits,
   CommandInteraction,
 } from 'discord.js'
-import { mapper } from '../../database'
+import { modelMapper } from '../../database'
 import { configurableI18n } from '../../configuration'
 import type { User } from '../../types'
 
@@ -32,7 +32,7 @@ export default {
       return
     }
 
-    const user: User = await mapper.get({
+    const user: User = await modelMapper.get({
       user_id: interactionUserId,
     })
 
@@ -44,7 +44,7 @@ export default {
     const {
       user_warnings,
       user_ban,
-    }: { user_warnings: number; user_ban: boolean } = await mapper.get({
+    }: { user_warnings: number; user_ban: boolean } = await modelMapper.get({
       // @ts-ignore
       guild_id: interaction.member?.guild.id,
       user_id: user.user_id,
@@ -64,7 +64,7 @@ export default {
       }
     }
 
-    await mapper.update({
+    await modelMapper.update({
       // @ts-ignore
       guild_id: interaction.member?.guild.id,
       user_id: user.user_id,

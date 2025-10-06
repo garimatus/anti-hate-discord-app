@@ -1,13 +1,17 @@
 import { REST, Routes, Events } from 'discord.js'
-import { collecter, handler, deployer } from '../commands/utils'
-import { logger } from '../utils'
+import {
+  collectCommands,
+  handleInteraction,
+  deployCommands,
+} from '../commands/utils'
+import { logger } from '.'
 import type { Command } from '../types'
 import type { CommandCapableClient } from '../interfaces'
 
-export async function commandSetter(
+export async function setUpCommands(
   client: CommandCapableClient
 ): Promise<void> {
-  client.commands = await collecter()
+  client.commands = await collectCommands()
   const isDeployment: boolean = process.argv[2] === 'deploy'
 
   if (!client.commands || !client.commands.size) {
@@ -25,10 +29,10 @@ export async function commandSetter(
     'green'
   )
 
-  client.on(Events.InteractionCreate, handler)
+  client.on(Events.InteractionCreate, handleInteraction)
 
   if (isDeployment && process.env.DISCORD_OAUTH2_TOKEN) {
     const rest: REST = new REST().setToken(process.env.DISCORD_OAUTH2_TOKEN)
-    deployer(rest, Routes, client.commands)
+    deployCommands(rest, Routes, client.commands)
   }
 }

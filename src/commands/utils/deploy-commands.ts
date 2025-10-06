@@ -1,10 +1,10 @@
 import { REST, Collection } from 'discord.js'
 import { logger } from '../../utils'
-import { mapper } from '../../database'
+import { modelMapper } from '../../database'
 import type { Command } from '../../types'
 import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10'
 
-export async function deployer(
+export async function deployCommands(
   rest: REST,
   Routes: any,
   commands: Collection<string, Command>
@@ -16,7 +16,7 @@ export async function deployer(
     })
 
     const guildsCounter: number = (
-      await mapper.mapWithQuery(
+      await modelMapper.mapWithQuery(
         `SELECT
         COUNT(guild_id) AS guilds_counter
       FROM

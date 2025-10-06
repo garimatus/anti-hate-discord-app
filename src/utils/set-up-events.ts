@@ -1,12 +1,12 @@
 import { Client, Events, Collection } from 'discord.js'
-import { collecter, listener, detector } from '../events/utils'
-import { mapper } from '../database'
+import { collectEvents, eventListener, analyzeMessage } from '../events/utils'
+import { modelMapper } from '../database'
 import { configurableI18n } from '../configuration'
-import { logger } from '../utils'
+import { logger } from '.'
 import type { Event } from '../types'
 
-export async function eventSetter(client: Client): Promise<void> {
-  const events: Collection<string, Event> = await collecter()
+export async function setUpEvents(client: Client): Promise<void> {
+  const events: Collection<string, Event> = await collectEvents()
 
   if (!events?.size) {
     throw new Error('There was not any valid event file found.')
@@ -16,18 +16,18 @@ export async function eventSetter(client: Client): Promise<void> {
     if (event.once) {
       client.once(
         event.name,
-        listener(event, mapper, configurableI18n, undefined)
+        eventListener(event, modelMapper, configurableI18n, undefined)
       )
     }
 
     if (!event.once) {
       client.on(
         event.name,
-        listener(
+        eventListener(
           event,
-          mapper,
+          modelMapper,
           configurableI18n,
-          event.name === Events.MessageCreate ? detector : undefined
+          event.name === Events.MessageCreate ? analyzeMessage : undefined
         )
       )
     }

@@ -2,9 +2,11 @@ import type { Interaction } from 'discord.js'
 import type { CommandCapableClient } from '../../interfaces'
 import type { Command } from '../../types'
 import { configurableI18n } from '../../configuration'
-import { mapper } from '../../database'
+import { modelMapper } from '../../database'
 
-export async function handler(interaction: Interaction): Promise<void> {
+export async function handleInteraction(
+  interaction: Interaction
+): Promise<void> {
   if (!interaction.isChatInputCommand()) return
   const command: Command | undefined = (
     interaction.client as CommandCapableClient
@@ -18,7 +20,7 @@ export async function handler(interaction: Interaction): Promise<void> {
   try {
     configurableI18n.setLocale(
       (
-        await mapper.get({
+        await modelMapper.get({
           guild_id: interaction.guild?.id,
         })
       ).locale ?? 'en'
