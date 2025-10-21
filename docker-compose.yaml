@@ -1,30 +1,30 @@
 services:
   application:
     image: anti-hate-discord-app:latest
-    container_name: anti-hate-discord-bot
+    container_name: anti-hate-discord-app-bot
     build: .
-    environment: ['NODE_ENV=${NODE_ENV}']
+    environment: ['NODE_ENV=${NODE_ENV:-development}']
     depends_on:
-      # application-tests:
-      #   condition: service_completed_successfully
+      tests:
+        condition: service_completed_successfully
+    links: [cassandra, ollama]
+    ports: ['3000:3000']
+  tests:
+    build:
+      dockerfile: __tests__/Dockerfile
+      context: .
+    container_name: anti-hate-discord-app-tests
+    volumes: ['.:/application']
+    environment: ['NODE_ENV=${NODE_ENV:-test}', 'ENV_FILE=${ENV_FILE:-.env.dev}']
+    depends_on:
       cassandra:
         condition: service_healthy
       ollama:
         condition: service_healthy
-    # links: [application-tests, cassandra, ollama]
     links: [cassandra, ollama]
     ports: ['3000:3000']
-    restart: on-failure
-  # application-tests:
-  #   build:
-  #     dockerfile: ./tests/Dockerfile
-  #     context: .
-  #   container_name: anti-hate-discord-bot-tests
-  #   volumes:
-  #     - .:/application
-  #   environment: ['NODE_ENV=${NODE_ENV:-test}']
   cassandra:
-    container_name: anti-hate-cassie-db
+    container_name: anti-hate-discord-app-cassie
     image: cassandra:latest
     ports: ['9042:9042']
     healthcheck:
@@ -33,8 +33,8 @@ services:
       timeout: 5s
       retries: 3
   ollama:
-    container_name: anti-hate-ollama-service
-    build: ./src/ollama
+    container_name: anti-hate-discord-app-ollama
+    build: src/ollama
     environment: ['ANALYSIS_MODEL=${ANALYSIS_MODEL:-gemma3:1b}'] # Default to gemma3:1b
     ports: ['11434:11434']
     volumes: ['ollama-data:/root/.ollama']

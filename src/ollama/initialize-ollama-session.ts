@@ -27,11 +27,10 @@ export async function initializeOllamaSession(
       contextChatRequest,
       sessionId
     )
-  if (!response || response.message.content.trim() !== 'OK') {
+  if (!response || response.message.content.substring(0, 2) !== 'OK')
     throw new Error(
       'Failed to initialize the Ollama API Client with given context'
     )
-  }
 
   OllamaClientInstance.session = {
     ...OllamaClientInstance.session,

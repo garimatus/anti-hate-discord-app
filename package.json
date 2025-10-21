@@ -1,32 +1,38 @@
 {
   "name": "anti-hate-discord-app",
   "version": "0.1.0",
-  "description": "Discord user monitoring and management bot application using Ollama for LLM-agnostic hate speech detection",
+  "description": "Discord bot for user monitoring and management with Ollama-based, LLM-agnostic hate speech detection",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "sh ./src/scripts/build.sh",
-    "dev": "node --watch --import=tsx --env-file .env.local ./src/index.ts",
-    "start": "sh ./src/scripts/start.sh",
-    "deploy": "sh ./src/scripts/start.sh deploy"
+    "test:analyze-message": "sh scripts/test:analyze-message.sh",
+    "build": "sh scripts/build.sh",
+    "dev": "node --watch --import=tsx --env-file .env.local src/index.ts",
+    "start": "sh scripts/start.sh",
+    "deploy": "sh scripts/start.sh deploy",
+    "docker:up": "docker compose up"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cassandra-driver": "^4.7.2",
-    "discord-api-types": "^0.38.15",
-    "discord.js": "^14.21.0",
-    "i18n": "^0.15.1",
-    "ollama": "^0.5.16",
-    "zod": "^4.0.14"
+    "cassandra-driver": "^4.8.0",
+    "discord-api-types": "^0.38.30",
+    "discord.js": "^14.23.2",
+    "i18n": "^0.15.2",
+    "ollama": "^0.5.18",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@jest/globals": "^30.2.0",
     "@types/i18n": "^0.13.12",
-    "@types/node": "^22.15.21",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.18.10",
+    "jest": "^30.2.0",
     "prettier": "3.4.1",
-    "tsx": "^4.20.4",
-    "typescript": "^5.8.3"
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   },
   "type": "module",
   "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184"

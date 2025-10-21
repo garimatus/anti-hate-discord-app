@@ -6,12 +6,11 @@ ENV PATH="$PNPM_HOME:$PATH"
 
 RUN mkdir -p ${APP_HOME}
 WORKDIR ${APP_HOME}
-COPY --exclude=__tests__ . ${APP_HOME}
+COPY . ${APP_HOME}
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 FROM base AS build
-
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     pnpm install --frozen-lockfile
 RUN pnpm build
@@ -21,4 +20,4 @@ FROM base
 COPY --from=build ${APP_HOME}/node_modules ${APP_HOME}/node_modules
 COPY --from=build ${APP_HOME}/dist ${APP_HOME}/dist
 
-CMD ["sh", "-c", "pnpm run deploy"]
+CMD ["sh", "-c", "pnpm test:analyze-message"]

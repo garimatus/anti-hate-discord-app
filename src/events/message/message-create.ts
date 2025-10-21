@@ -1,6 +1,6 @@
 import { Events, Message, type GuildChannelResolvable } from 'discord.js'
 import { mapping } from 'cassandra-driver'
-import type { User, GuildUser, AnalysisResponse } from '../../types'
+import type { User, GuildUser, MessageAnalysisResponse } from '../../types'
 import type { GuildInterface } from '../../interfaces'
 import type { ConfigurableI18n } from '../../configuration/i18n/ConfigurableI18n'
 
@@ -11,7 +11,7 @@ export default {
     message: Message,
     modelMapper: mapping.ModelMapper,
     configurableI18n: ConfigurableI18n,
-    detector: (message: string) => Promise<AnalysisResponse>
+    analyzeMessage: (message: string) => Promise<MessageAnalysisResponse>
   ): Promise<void> {
     if (
       message.member
@@ -30,7 +30,7 @@ export default {
 
     const messageContent: string = message.content.trimStart().trimEnd()
 
-    if ((await detector(messageContent)).result === true) {
+    if ((await analyzeMessage(messageContent)).result === true) {
       const user: User = await modelMapper.get({
         user_id: message.author.id,
       })
