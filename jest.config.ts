@@ -26,7 +26,7 @@ export default {
           esModuleInterop: true,
           skipLibCheck: true,
           types: ['jest', 'node'],
-        } as unknown as TsConfigCompilerOptionsJson,
+        } as TsConfigCompilerOptionsJson,
       },
     ],
   } as TsJestTransformerOptions,
