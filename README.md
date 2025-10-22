@@ -4,7 +4,7 @@ Discord bot for user monitoring and management with Ollama-based, LLM-agnostic h
 
 ## Installation and environment
 
-0. **[OPTIONAL]** Run the [Ollama](https://github.com/ollama/ollama) client on the Docker hosting machine.
+0. **[OPTIONAL]** Run the [Ollama](https://github.com/ollama/ollama) client in the Docker hosting machine.
 1. Assign the "NODE_ENV" environment variable as following `export NODE_ENV="development/production/local"` with the following format:
 
    ```env
