@@ -33,4 +33,4 @@ Discord bot for user monitoring and management with Ollama-based, LLM-agnostic h
     1.2 Assign `ANALYSIS_MODEL` environment variable to be pulled with the Ollama API service container initialization. If not it will be set as default that's "gemma3:1b".
 2. Run `docker compose up` at root directory.
 
-    3.1 Optionally assign the `ANALYZE_MESSAGE_SUCCESS_RATIO` environment variable with a decimal number between 0 and 1 to adjust the analysis success ratio (default is `0.95` = 95%). IMPORTANT: this will determinate the application build outcome and depends entirely and directly on the ratio and model used.
+    3.1 Optionally assign the `ANALYZE_MESSAGE_SUCCESS_RATIO` environment variable with a decimal number between 0 and 1 to adjust the analysis success ratio (default is `0.95` = 95%). IMPORTANT: this will determinate the application `docker compose up` outcome and depends entirely and directly on both the ratio and model used respectively.
