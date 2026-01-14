@@ -1,5 +1,5 @@
 import { REST, Collection } from 'discord.js'
-import { logger } from '../../utils'
+import { log } from '../../utils'
 import { modelMapper } from '../../database'
 import type { Command } from '../../types'
 import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10'
@@ -26,9 +26,9 @@ export async function deployCommands(
     ).first().guilds_counter as number | 0
 
     if (guildsCounter > 0) {
-      logger(
+      log(
         `Started refreshing ${commandsJsoned.length} application (/) commands.`,
-        'green'
+        'success'
       )
 
       const deploymentResponseData: unknown[] = (await rest.put(
@@ -36,9 +36,9 @@ export async function deployCommands(
         { body: commandsJsoned }
       )) as unknown[]
 
-      logger(
+      log(
         `Successfully reloaded ${deploymentResponseData.length} application (/) commands into ${guildsCounter} guild(s).`,
-        'green'
+        'success'
       )
     }
   } catch (error: any) {

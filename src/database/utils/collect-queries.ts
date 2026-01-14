@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import { logger } from '../../utils'
+import { log } from '../../utils'
 
 const { pathname: path }: { pathname: string } = new URL(
   '../queries',
@@ -32,9 +32,9 @@ export async function collectQueries(): Promise<Record<string, string>> {
           // @ts-ignore
           queries[queryName] = query
         } else {
-          logger(
-            `[WARNING] The query at ${path + '/' + file} could not be added.`,
-            'yellow'
+          log(
+            `The query at ${path + '/' + file} could not be added.`,
+            'warning'
           )
         }
       }
@@ -44,9 +44,9 @@ export async function collectQueries(): Promise<Record<string, string>> {
       )
     }
   } catch (error: any) {
-    logger(
+    log(
       `[ERROR] An error has ocurred while trying to collect all query (.cql) files: ${error}`,
-      'red'
+      'error'
     )
   }
 

@@ -4,7 +4,7 @@ import {
   handleInteraction,
   deployCommands,
 } from '../commands/utils'
-import { logger } from '.'
+import { log } from '.'
 import type { Command } from '../types'
 import type { CommandCapableClient } from '../interfaces'
 
@@ -24,9 +24,9 @@ export async function setUpCommands(
     client.commands.set(command.data.name, command)
   )
 
-  logger(
+  log(
     `Succesfully added ${client.commands.size} command(s) to client`,
-    'green'
+    'success'
   )
 
   client.on(Events.InteractionCreate, handleInteraction)

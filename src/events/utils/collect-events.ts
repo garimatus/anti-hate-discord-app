@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import * as Path from 'path'
 import { Collection } from 'discord.js'
-import { logger } from '../../utils'
+import { log } from '../../utils'
 import type { Event } from '../../types'
 
 const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
@@ -28,16 +28,16 @@ export async function collectEvents(): Promise<Collection<string, Event>> {
           if ('name' in event!! && 'execute' in event!!) {
             events.set(Path.basename(file, Path.extname(file)), event)
           } else {
-            logger(
-              `[WARNING] The event at ${filePath} is missing a required "name" or "execute" property.`,
-              'yellow'
+            log(
+              `The event at ${filePath} is missing a required "name" or "execute" property.`,
+              'warning'
             )
           }
         }
       }
     }
   } catch (error: any) {
-    logger(`[ERROR] Failed to collect events: ${error.message}`, 'red')
+    log(`Failed to collect events: ${error.message}`, 'error')
   }
 
   return events

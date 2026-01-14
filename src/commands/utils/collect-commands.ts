@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import * as Path from 'path'
 import { Collection } from 'discord.js'
-import { logger } from '../../utils'
+import { log } from '../../utils'
 import type { Command } from '../../types'
 
 const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
@@ -31,18 +31,18 @@ export async function collectCommands(): Promise<Collection<string, Command>> {
           if ('data' in command && 'execute' in command) {
             commands.set(Path.basename(file, Path.extname(file)), command)
           } else {
-            logger(
-              `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
-              'yellow'
+            log(
+              `The command at ${filePath} is missing a required "data" or "execute" property.`,
+              'warning'
             )
           }
         }
       }
     }
   } catch (error: any) {
-    logger(
-      `[ERROR] An error has ocurred while trying to collect all command files: ${error}`,
-      'red'
+    log(
+      `An error has ocurred while trying to collect all command files: ${error}`,
+      'error'
     )
   }
 

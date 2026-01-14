@@ -2,7 +2,7 @@ import { Client, Events, Collection } from 'discord.js'
 import { collectEvents, eventListener, analyzeMessage } from '../events/utils'
 import { modelMapper } from '../database'
 import { configurableI18n } from '../configuration'
-import { logger } from '.'
+import { log } from '.'
 import type { Event } from '../types'
 
 export async function setUpEvents(client: Client): Promise<void> {
@@ -33,8 +33,8 @@ export async function setUpEvents(client: Client): Promise<void> {
     }
   })
 
-  logger(
+  log(
     `Succesfully added ${client.eventNames().length} event(s) to client`,
-    'green'
+    'success'
   )
 }

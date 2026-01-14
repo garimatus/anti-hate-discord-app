@@ -1,4 +1,4 @@
-export type { Color } from './color.type'
+export type { LogType } from './log.type'
 export type { Command } from './command.type'
 export type { Event } from './event.type'
 export type { GuildUser } from './guild-user.type'
