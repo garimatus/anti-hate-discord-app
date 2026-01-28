@@ -1,6 +1,8 @@
 import type { ChatResponse } from 'ollama'
 import { OllamaClientInstance } from '../../api'
 import type { MessageAnalysisResponse } from '../../types'
+import { log } from '../../utils'
+import { configurableI18n } from '../../configuration'
 
 export async function analyzeMessage(
   message: string
@@ -19,11 +21,12 @@ export async function analyzeMessage(
         },
         'messages-analysis'
       )
-    if (!response || !response.message || !response.message.content)
-      throw new Error('Failed to get a valid response from the Ollama API')
+    if (!response || !response.message || !response.message.content) {
+      throw new Error(configurableI18n.__('analyze-message-error-1'))
+    }
     return JSON.parse(response.message.content) as MessageAnalysisResponse
   } catch (error: any) {
-    console.error('Error analyzing message:', error)
+    log(error ?? error.message, 'error')
     return {
       result: undefined,
       motive: error.message ?? error ?? 'Unknown error',

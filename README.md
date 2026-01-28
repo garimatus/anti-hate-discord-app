@@ -19,6 +19,7 @@ Discord bot for user monitoring and management with Ollama-based, LLM-agnostic h
    OLLAMA_API_MODEL=
    OLLAMA_API_MODEL_SESSION_ID=
    COMPOSE_PROJECT_NAME=# optional
+   CLIENT_LOCALE=# optional
    ```
 
     1.1 ENV_FILE values respectively by NODE_ENV value given:

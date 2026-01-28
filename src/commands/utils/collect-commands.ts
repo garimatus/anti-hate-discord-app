@@ -3,6 +3,7 @@ import * as Path from 'path'
 import { Collection } from 'discord.js'
 import { log } from '../../utils'
 import type { Command } from '../../types'
+import { configurableI18n } from '../../configuration'
 
 const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
 
@@ -32,7 +33,12 @@ export async function collectCommands(): Promise<Collection<string, Command>> {
             commands.set(Path.basename(file, Path.extname(file)), command)
           } else {
             log(
-              `The command at ${filePath} is missing a required "data" or "execute" property.`,
+              configurableI18n.__(
+                'collect-commands-2',
+                filePath,
+                'data',
+                'execute'
+              ),
               'warning'
             )
           }
@@ -40,10 +46,7 @@ export async function collectCommands(): Promise<Collection<string, Command>> {
       }
     }
   } catch (error: any) {
-    log(
-      `An error has ocurred while trying to collect all command files: ${error}`,
-      'error'
-    )
+    log(configurableI18n.__('collect-commands-1', error.message), 'error')
   }
 
   return commands

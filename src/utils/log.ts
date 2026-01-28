@@ -1,5 +1,6 @@
 import type { LogType } from '../types'
 import { logger } from './logger'
+import { configurableI18n } from '../configuration'
 
 export function log(message: string, logType?: LogType): void {
   if (typeof message === 'string' && message.length) {
@@ -14,6 +15,6 @@ export function log(message: string, logType?: LogType): void {
 
     logger.info(logColor, logMessage)
   } else {
-    logger.error('\x1b[31m%s\x1b[0m', `Invalid message provided to logger.`)
+    logger.error('\x1b[31m%s\x1b[0m', configurableI18n.__('log-error-1'))
   }
 }

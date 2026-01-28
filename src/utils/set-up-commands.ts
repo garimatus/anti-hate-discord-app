@@ -7,6 +7,7 @@ import {
 import { log } from '.'
 import type { Command } from '../types'
 import type { CommandCapableClient } from '../interfaces'
+import { configurableI18n } from '../configuration'
 
 export async function setUpCommands(
   client: CommandCapableClient
@@ -15,9 +16,7 @@ export async function setUpCommands(
   const isDeployment: boolean = process.argv[2] === 'deploy'
 
   if (!client.commands || !client.commands.size) {
-    throw new Error(
-      'No commands found. Please ensure commands are properly defined.'
-    )
+    throw new Error(configurableI18n.__('set-up-commands-error-1'))
   }
 
   client.commands.forEach((command: Command) =>
@@ -25,7 +24,10 @@ export async function setUpCommands(
   )
 
   log(
-    `Succesfully added ${client.commands.size} command(s) to client`,
+    configurableI18n.__(
+      'set-up-commands-success',
+      String(client.commands.size)
+    ),
     'success'
   )
 

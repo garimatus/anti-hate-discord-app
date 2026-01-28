@@ -9,7 +9,7 @@ export async function setUpEvents(client: Client): Promise<void> {
   const events: Collection<string, Event> = await collectEvents()
 
   if (!events?.size) {
-    throw new Error('There was not any valid event file found.')
+    throw new Error(configurableI18n.__('set-up-events-error-1'))
   }
 
   events.forEach((event: Event) => {
@@ -34,7 +34,10 @@ export async function setUpEvents(client: Client): Promise<void> {
   })
 
   log(
-    `Succesfully added ${client.eventNames().length} event(s) to client`,
+    configurableI18n.__(
+      'set-up-events-success',
+      String(client.eventNames().length)
+    ),
     'success'
   )
 }

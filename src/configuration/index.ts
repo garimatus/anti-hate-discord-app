@@ -1,5 +1,10 @@
 import { env } from 'process'
 import { z, ZodObject, type ZodSafeParseResult } from 'zod'
+import ConfigurableI18n from './i18n/ConfigurableI18n'
+import { log } from '../utils'
+
+const configurableI18n = ConfigurableI18n
+configurableI18n.setLocale(process.env.CLIENT_LOCALE || 'en')
 
 const schema: ZodObject = z.object({
   NODE_ENV: z
@@ -18,6 +23,7 @@ const schema: ZodObject = z.object({
     .string()
     .min(1, 'OLLAMA_API_MODEL_SESSION_ID is required'),
   COMPOSE_PROJECT_NAME: z.string().optional(),
+  CLIENT_LOCALE: z.string().optional(),
 })
 
 export function validateEnv(): Record<string, unknown> {
@@ -27,9 +33,11 @@ export function validateEnv(): Record<string, unknown> {
     )
 
   if (!parsedSchema.success) {
-    console.error(
-      'Error at environment variables configuration:',
-      parsedSchema.error.message
+    log(
+      configurableI18n.__('validate-env-error-1') +
+        '\n' +
+        parsedSchema.error.message,
+      'error'
     )
     process.exit(1)
   }
@@ -37,4 +45,4 @@ export function validateEnv(): Record<string, unknown> {
   return parsedSchema.data
 }
 
-export { default as configurableI18n } from './i18n/ConfigurableI18n'
+export { configurableI18n }

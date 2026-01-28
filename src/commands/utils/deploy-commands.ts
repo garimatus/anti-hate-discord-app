@@ -3,6 +3,7 @@ import { log } from '../../utils'
 import { modelMapper } from '../../database'
 import type { Command } from '../../types'
 import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10'
+import { configurableI18n } from '../../configuration'
 
 export async function deployCommands(
   rest: REST,
@@ -15,7 +16,7 @@ export async function deployCommands(
       commandsJsoned.push(command.data.toJSON())
     })
 
-    const guildsCounter: number = (
+    const guildsCount: number = (
       await modelMapper.mapWithQuery(
         `SELECT
         COUNT(guild_id) AS guilds_counter
@@ -25,23 +26,29 @@ export async function deployCommands(
       )([])
     ).first().guilds_counter as number | 0
 
-    if (guildsCounter > 0) {
-      log(
-        `Started refreshing ${commandsJsoned.length} application (/) commands.`,
-        'success'
-      )
-
+    if (guildsCount > 0) {
       const deploymentResponseData: unknown[] = (await rest.put(
         Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
         { body: commandsJsoned }
       )) as unknown[]
+      log(
+        configurableI18n.__(
+          'deploy-commands-success-1',
+          String(deploymentResponseData.length)
+        ),
+        'success'
+      )
 
       log(
-        `Successfully reloaded ${deploymentResponseData.length} application (/) commands into ${guildsCounter} guild(s).`,
+        configurableI18n.__(
+          'deploy-commands-success-2',
+          String(deploymentResponseData.length),
+          String(guildsCount)
+        ),
         'success'
       )
     }
   } catch (error: any) {
-    console.error(error)
+    log(error.message, 'error')
   }
 }

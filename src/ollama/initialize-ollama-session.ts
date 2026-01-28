@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import type { ChatRequest, ChatResponse } from 'ollama'
 import { OllamaClientInstance } from '../api'
+import { configurableI18n } from '../configuration'
 
 export async function initializeOllamaSession(
   sessionId?: string
@@ -27,10 +28,14 @@ export async function initializeOllamaSession(
       contextChatRequest,
       sessionId
     )
-  if (!response || response.message.content.substring(0, 2) !== 'OK')
+  if (!response || response.message.content.substring(0, 2) !== 'OK') {
     throw new Error(
-      'Failed to initialize the Ollama API Client with given context'
+      configurableI18n.__(
+        'initialize-ollama-session-error-1',
+        response.message.content
+      )
     )
+  }
 
   OllamaClientInstance.session = {
     ...OllamaClientInstance.session,

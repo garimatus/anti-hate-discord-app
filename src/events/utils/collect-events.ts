@@ -3,6 +3,7 @@ import * as Path from 'path'
 import { Collection } from 'discord.js'
 import { log } from '../../utils'
 import type { Event } from '../../types'
+import { configurableI18n } from '../../configuration'
 
 const { pathname: path }: { pathname: string } = new URL('../', import.meta.url)
 
@@ -29,7 +30,7 @@ export async function collectEvents(): Promise<Collection<string, Event>> {
             events.set(Path.basename(file, Path.extname(file)), event)
           } else {
             log(
-              `The event at ${filePath} is missing a required "name" or "execute" property.`,
+              configurableI18n.__('collect-events-warning-1', filePath),
               'warning'
             )
           }
@@ -37,7 +38,10 @@ export async function collectEvents(): Promise<Collection<string, Event>> {
       }
     }
   } catch (error: any) {
-    log(`Failed to collect events: ${error.message}`, 'error')
+    log(
+      configurableI18n.__('collect-events-error-1', error ?? error.message),
+      'error'
+    )
   }
 
   return events
